@@ -13,10 +13,10 @@ namespace LexiconLMS.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public int? CourseId { get; set; }
+        public int CourseId { get; set; }
 
 
-        public ICollection<Task> Activities { get; set; }
+        public ICollection<Task> Tasks { get; set; }
         public Course Course { get; set; }
     }
 }
