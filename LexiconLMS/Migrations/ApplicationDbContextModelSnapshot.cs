@@ -38,6 +38,15 @@ namespace LexiconLMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Kurs1beskrivning",
+                            Name = "Kurs1",
+                            StartDate = new DateTime(2020, 6, 8, 14, 41, 4, 28, DateTimeKind.Local).AddTicks(564)
+                        });
                 });
 
             modelBuilder.Entity("LexiconLMS.Models.Module", b =>
@@ -67,6 +76,17 @@ namespace LexiconLMS.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Modules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CourseId = 1,
+                            Description = "Module1description",
+                            EndDate = new DateTime(2020, 6, 8, 14, 41, 4, 32, DateTimeKind.Local).AddTicks(6844),
+                            Name = "Module1",
+                            StartDate = new DateTime(2020, 6, 8, 14, 41, 4, 32, DateTimeKind.Local).AddTicks(5934)
+                        });
                 });
 
             modelBuilder.Entity("LexiconLMS.Models.Task", b =>
@@ -98,6 +118,17 @@ namespace LexiconLMS.Migrations
                     b.HasIndex("TaskTypeId");
 
                     b.ToTable("Tasks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EndDate = new DateTime(2020, 6, 8, 14, 41, 4, 33, DateTimeKind.Local).AddTicks(2341),
+                            ModuleId = 1,
+                            Name = "Model1",
+                            StartDate = new DateTime(2020, 6, 8, 14, 41, 4, 33, DateTimeKind.Local).AddTicks(1495),
+                            TaskTypeId = 1
+                        });
                 });
 
             modelBuilder.Entity("LexiconLMS.Models.TaskType", b =>
@@ -113,6 +144,13 @@ namespace LexiconLMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TaskType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Tasktype1"
+                        });
                 });
 
             modelBuilder.Entity("LexiconLMS.Models.User", b =>

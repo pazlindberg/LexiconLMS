@@ -49,7 +49,7 @@ namespace LexiconLMS
                     LastName = "Gym",
                     //TimeOfRegistration = DateTime.Now
                 };
-
+                                
                 var addUserResult = await userManager.CreateAsync(user, adminPW);
 
                 if (!addUserResult.Succeeded) throw new Exception(string.Join("\n", addUserResult.Errors));
