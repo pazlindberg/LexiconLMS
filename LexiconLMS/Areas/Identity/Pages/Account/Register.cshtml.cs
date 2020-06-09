@@ -6,6 +6,7 @@ using System.Data;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using LexiconLMS.Data;
 using LexiconLMS.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
@@ -24,6 +26,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
@@ -35,6 +38,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             IEmailSender emailSender)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _logger = logger;
@@ -80,10 +84,15 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name ="Role")]
+            public string Role { get; set; }
         }
 
         public async System.Threading.Tasks.Task OnGetAsync(string returnUrl = null)
         {
+            ViewData["Role"] = new SelectList(_roleManager.Roles, "Name", "Name");
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -96,6 +105,8 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             {
                 var user = new User { FirstName = Input.FirstName,LastName= Input.LastName, UserName = Input.Email, Email = Input.Email, Role= Input.Role };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                var addToRoleResult = await _userManager.AddToRoleAsync(user, Input.Role);
+                if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
