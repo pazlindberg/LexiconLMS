@@ -15,7 +15,7 @@ namespace LexiconLMS.Models
         public string LastName { get; set; }
         public string FullName { get { return (($"{FirstName} {LastName}")); } }
 
-        public string Role { get; set; }
+       
         //// user ID from AspNetUser table.
         //public string OwnerID { get; set; }
         public Course Course { get; set; }

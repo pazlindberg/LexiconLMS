@@ -26,7 +26,6 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
@@ -85,9 +84,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
-            [Display(Name ="Role")]
-            public string Role { get; set; }
+           
         }
 
         public async System.Threading.Tasks.Task OnGetAsync(string returnUrl = null)
@@ -103,7 +100,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User { FirstName = Input.FirstName,LastName= Input.LastName, UserName = Input.Email, Email = Input.Email, Role= Input.Role };
+                var user = new User { FirstName = Input.FirstName,LastName= Input.LastName, UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 var addToRoleResult = await _userManager.AddToRoleAsync(user, Input.Role);
                 if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
