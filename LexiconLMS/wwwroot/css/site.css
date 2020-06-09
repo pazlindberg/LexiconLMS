@@ -23,7 +23,13 @@ a {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
-
+#lms {
+    background-image: url(/images/skola1.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: initial;
+    background-attachment: fixed;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
