@@ -22,6 +22,8 @@ namespace LexiconLMS.Controllers
         {
             _context = context;
         }
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Users.ToListAsync());
