@@ -20,7 +20,7 @@ namespace LexiconLMS.Models
         }
 
         // GET: Courses
-        [Authorize(Roles = "Member")]
+        [Authorize(Roles = "Member,Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Courses.ToListAsync());
@@ -28,7 +28,7 @@ namespace LexiconLMS.Models
 
         // GET: Courses/Details/5
 
-        [Authorize(Roles = "Member")]
+        [Authorize(Roles = "Member,Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
