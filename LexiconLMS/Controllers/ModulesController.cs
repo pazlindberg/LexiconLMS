@@ -49,7 +49,7 @@ namespace LexiconLMS.Controllers
         // GET: Modules/Create
         public IActionResult Create()
         {
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id");
+            ViewData["Courses"] = new SelectList(_context.Courses, "Name", "Name");
             return View();
         }
 
