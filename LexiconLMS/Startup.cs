@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using LexiconLMS.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace LexiconLMS
 {
@@ -48,6 +50,15 @@ namespace LexiconLMS
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddControllers(config =>
+            {
+                // using Microsoft.AspNetCore.Mvc.Authorization;
+                // using Microsoft.AspNetCore.Authorization;
+                var policy = new AuthorizationPolicyBuilder()
+                                 .RequireAuthenticatedUser()
+                                 .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

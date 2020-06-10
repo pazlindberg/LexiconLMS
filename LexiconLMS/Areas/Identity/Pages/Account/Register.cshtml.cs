@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Data;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -19,12 +20,12 @@ using Microsoft.Extensions.Logging;
 
 namespace LexiconLMS.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
@@ -38,6 +39,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
         }
@@ -56,6 +58,21 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            //Add to model
+            [Required]
+            [StringLength(20)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(20)]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "User Role")]
+ 
+            public string Role { get; set; }
+            
+
             [Required]
             //[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
@@ -67,9 +84,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
-            [Display(Name ="Role")]
-            public string Role { get; set; }
+           
         }
 
         public async System.Threading.Tasks.Task OnGetAsync(string returnUrl = null)
@@ -85,7 +100,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email };
+                var user = new User { FirstName = Input.FirstName,LastName= Input.LastName, UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 var addToRoleResult = await _userManager.AddToRoleAsync(user, Input.Role);
                 if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
@@ -106,11 +121,11 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email /* , returnUrl = returnUrl*/ });
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        
                         return LocalRedirect(returnUrl);
                     }
                 }
