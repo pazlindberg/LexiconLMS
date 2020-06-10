@@ -37,7 +37,7 @@
     <ul>
         @if ((this.Model.Modules != null)&&(this.Model.Modules.Count>0))
         {
-            @foreach (var x in this.Model.Modules)
+            @foreach (var x in this.Model.Modules) //todo: implementera snabbvy (tex hovring) om tid finnes
             {
                 string t = "/Modules/Details/" + x.Id;
                 <li><a href=@t>@x.Name</a></li>
