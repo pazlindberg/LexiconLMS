@@ -33,18 +33,18 @@
 </div>
 
 <div>
-    <!--todo: modul-lista Prova skicka in några i viewbag och se om det är null där också typ-->
-
+    
     @if (this.Model.Modules != null)
     {
         @foreach (var x in this.Model.Modules)
         {
-            @Html.DisplayFor(model => x.Name)
+            <a asp-action="Edit" asp-route-id="@x.Id">@x.Name</a> 
+                 
         }
     }
     else
     {
-        <h1>Model.Modules = null?</h1>
+        <h1>no modules</h1>
     }
 
 </div>
