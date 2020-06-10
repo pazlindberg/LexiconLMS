@@ -33,7 +33,9 @@ namespace LexiconLMS.Models
             }
 
             var course = await _context.Courses
+                .Include(c => c.Modules) //theninclude för att traversera activities osv
                 .FirstOrDefaultAsync(m => m.Id == id);
+                
             if (course == null)
             {
                 return NotFound();
