@@ -6,17 +6,26 @@ using System.Threading.Tasks;
 
 namespace LexiconLMS.Models
 {
+    
     public class Course
     {
         public int Id { get; set; }
 
+        [Required]
         [Display(Name = "Namn")]
+        [StringLength(30)]
         public string Name { get; set; }
 
+        [Required]
         [Display(Name = "Beskrivning")]
+        [StringLength(31)]
         public string Description { get; set; }
         
+        [Required]
         [Display(Name = "Start")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}",ApplyFormatInEditMode = true)]
+        
         public DateTime StartDate { get; set; } 
         
         public ICollection<User> Users { get; set; }

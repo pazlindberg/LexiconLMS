@@ -84,11 +84,13 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    if (User.IsInRole("Admin"))
+                    var user = await _userManager.FindByNameAsync(Input.Email);
+
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
                     {
-                        return LocalRedirect("/Courses/index");
+                        return LocalRedirect("/Courses/Index");
                     }
-                    else return LocalRedirect("/Courses/Create");
+                    else return LocalRedirect("/Home/Index");
                     //return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
