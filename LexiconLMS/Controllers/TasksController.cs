@@ -50,8 +50,8 @@ namespace LexiconLMS.Controllers
         public IActionResult Create()
         {
             
-            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Id");
-            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Id");
+            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name");
+            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name");
             return View();
         }
 
@@ -68,8 +68,8 @@ namespace LexiconLMS.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Id", task.ModuleId);
-            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Id", task.TaskTypeId);
+            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
+            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
             return View(task);
         }
 
@@ -86,8 +86,8 @@ namespace LexiconLMS.Controllers
             {
                 return NotFound();
             }
-            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Id", task.ModuleId);
-            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Id", task.TaskTypeId);
+            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
+            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
             return View(task);
         }
 
@@ -123,8 +123,8 @@ namespace LexiconLMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Id", task.ModuleId);
-            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Id", task.TaskTypeId);
+            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
+            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
             return View(task);
         }
 

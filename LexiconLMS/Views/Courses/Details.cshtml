@@ -10,26 +10,45 @@
     <h4>Kurser</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.StartDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.StartDate)
+            
         </dd>
     </dl>
 </div>
+
+<div>
+    <!--todo: modul-lista Prova skicka in några i viewbag och se om det är null där också typ-->
+
+    @if (this.Model.Modules != null)
+    {
+        @foreach (var x in this.Model.Modules)
+        {
+            @Html.DisplayFor(model => x.Name)
+        }
+    }
+    else
+    {
+        <h1>Model.Modules = null?</h1>
+    }
+
+</div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Ändra</a> |
     <a asp-action="Index">Tillbaka till kurser</a>

@@ -84,8 +84,12 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    if (User.IsInRole("Admin"))
+                    {
+                        return LocalRedirect("/Courses/index");
+                    }
+                    else return LocalRedirect("/Courses/Create");
                     //return LocalRedirect(returnUrl);
-                    return RedirectToPage("/Courses/Index");
                 }
                 if (result.RequiresTwoFactor)
                 {
