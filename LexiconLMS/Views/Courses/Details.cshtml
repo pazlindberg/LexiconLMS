@@ -39,7 +39,7 @@
         {
             @foreach (var x in this.Model.Modules)
             {
-                string t = "/Modules/Edit/" + x.Id; //todo: är det edit/id man ska till? 
+                string t = "/Modules/Details/" + x.Id;
                 <li><a href=@t>@x.Name</a></li>
             }
         }
