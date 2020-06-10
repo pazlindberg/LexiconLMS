@@ -110,7 +110,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _signInManager.SignInAsync(user, isPersistent: false); //logging in while regging
                         return LocalRedirect(returnUrl);
                     }
                 }
