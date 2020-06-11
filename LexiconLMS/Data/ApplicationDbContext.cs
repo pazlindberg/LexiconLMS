@@ -57,7 +57,7 @@ namespace LexiconLMS.Data
                 {
                     Id = 2,
                     Name = "SNUS B",
-                    Description = "Module1description",
+                    Description = "Module2description",
                     CourseId = 1,
                     StartDate = DateTime.Now,
                     EndDate = DateTime.Now
@@ -67,7 +67,7 @@ namespace LexiconLMS.Data
                 {
                     Id = 3,
                     Name = "Värdegrund A",
-                    Description = "Module1description",
+                    Description = "Module3description",
                     CourseId = 3,
                     StartDate = DateTime.Now,
                     EndDate = DateTime.Now
