@@ -4,14 +4,16 @@ using LexiconLMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LexiconLMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200611155123_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,21 +51,21 @@ namespace LexiconLMS.Migrations
                             Id = 1,
                             Description = "mer om snus",
                             Name = "Snuskurs",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 111, DateTimeKind.Local).AddTicks(4255)
+                            StartDate = new DateTime(2020, 6, 11, 17, 51, 23, 520, DateTimeKind.Local).AddTicks(6997)
                         },
                         new
                         {
                             Id = 2,
                             Description = "mer om särskrivning",
                             Name = "Särskrivningskurs",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 114, DateTimeKind.Local).AddTicks(7771)
+                            StartDate = new DateTime(2020, 6, 11, 17, 51, 23, 524, DateTimeKind.Local).AddTicks(7736)
                         },
                         new
                         {
                             Id = 3,
                             Description = "fest",
                             Name = "Värdegrundskurs",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 114, DateTimeKind.Local).AddTicks(7830)
+                            StartDate = new DateTime(2020, 6, 11, 17, 51, 23, 524, DateTimeKind.Local).AddTicks(7781)
                         });
                 });
 
@@ -101,27 +103,27 @@ namespace LexiconLMS.Migrations
                             Id = 1,
                             CourseId = 1,
                             Description = "Module1description",
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(4019),
+                            EndDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(987),
                             Name = "SNUS A",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(2913)
+                            StartDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(488)
                         },
                         new
                         {
                             Id = 2,
                             CourseId = 1,
                             Description = "Module2description",
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(4972),
+                            EndDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(1537),
                             Name = "SNUS B",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(4951)
+                            StartDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(1519)
                         },
                         new
                         {
                             Id = 3,
                             CourseId = 3,
                             Description = "Module3description",
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(5133),
+                            EndDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(1550),
                             Name = "Värdegrund A",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(5130)
+                            StartDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(1547)
                         });
                 });
 
@@ -159,28 +161,28 @@ namespace LexiconLMS.Migrations
                         new
                         {
                             Id = 1,
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 116, DateTimeKind.Local).AddTicks(857),
+                            EndDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(4169),
                             ModuleId = 1,
                             Name = "TASK 1 (snusa)",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(9946),
+                            StartDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(3693),
                             TaskTypeId = 1
                         },
                         new
                         {
                             Id = 2,
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 116, DateTimeKind.Local).AddTicks(1874),
+                            EndDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(4704),
                             ModuleId = 2,
                             Name = "TASK 2 (snusa mer)",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 116, DateTimeKind.Local).AddTicks(1836),
+                            StartDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(4686),
                             TaskTypeId = 1
                         },
                         new
                         {
                             Id = 3,
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 116, DateTimeKind.Local).AddTicks(1896),
+                            EndDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(4717),
                             ModuleId = 2,
                             Name = "TASK 3 (snusa ännu mer)",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 116, DateTimeKind.Local).AddTicks(1892),
+                            StartDate = new DateTime(2020, 6, 11, 17, 51, 23, 525, DateTimeKind.Local).AddTicks(4714),
                             TaskTypeId = 1
                         });
                 });
