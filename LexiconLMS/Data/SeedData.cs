@@ -35,7 +35,7 @@ namespace LexiconLMS
                     if (!result.Succeeded) throw new Exception(string.Join("\n", result.Errors));
                 }
 
-                var adminEmail = "admin@gym.se";
+                var adminEmail = "a@a.se";
 
                 var foundUser = await userManager.FindByEmailAsync(adminEmail);
 
@@ -46,13 +46,37 @@ namespace LexiconLMS
                     UserName = adminEmail,
                     Email = adminEmail,
                     FirstName = "Admin",
-                    LastName = "Gym",
+                    LastName = "qwdoihioudqwuqwuui",
                     //TimeOfRegistration = DateTime.Now
                 };
-                                
-                var addUserResult = await userManager.CreateAsync(user, adminPW);
+
+                var user2 = new User
+                {
+                    UserName = "info@microsoft.com",
+                    Email = "info@microsoft.com",
+                    FirstName = "Elev1",
+                    LastName = "Bin Laden",
+                    //TimeOfRegistration = DateTime.Now
+                };
+
+                var user3 = new User
+                {
+                    UserName = "ringp1@sr.se",
+                    Email = "ringp1@sr.se",
+                    FirstName = "Dårradion",
+                    LastName = "Dåre",
+                    //TimeOfRegistration = DateTime.Now
+                };
+
+                var addUserResult = await userManager.CreateAsync(user, "a123");
+                var addUserResult2 = await userManager.CreateAsync(user2, "a123");
+                var addUserResult3 = await userManager.CreateAsync(user3, "a123");
 
                 if (!addUserResult.Succeeded) throw new Exception(string.Join("\n", addUserResult.Errors));
+                
+                if (!addUserResult2.Succeeded) throw new Exception(string.Join("\n", addUserResult2.Errors));
+                
+                if (!addUserResult3.Succeeded) throw new Exception(string.Join("\n", addUserResult3.Errors));
 
 
                 var adminUser = await userManager.FindByNameAsync(adminEmail);

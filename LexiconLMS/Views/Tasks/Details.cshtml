@@ -1,13 +1,13 @@
 ﻿@model LexiconLMS.Models.Task
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detaljer";
 }
 
-<h1>Details</h1>
+    <h1>@Html.DisplayFor(model => model.Name)</h1>
 
 <div>
-    <h4>Task</h4>
+    <h4>Detaljer</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -43,6 +43,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Redigera</a> |
+    <a asp-action="Index">Tillbaka till aktivitetslistan</a>
 </div>
