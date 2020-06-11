@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LexiconLMS.Areas.Identity.Pages.Account
 {
-    [Authorize(Roles = "Teacher")]
+    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;
@@ -126,7 +126,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
                     else
                     {
                         
-                        return LocalRedirect("~/User");
+                        return LocalRedirect(returnUrl);
                     }
                 }
                 foreach (var error in result.Errors)

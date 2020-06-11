@@ -49,7 +49,7 @@ namespace LexiconLMS.Controllers
         // GET: Modules/Create
         public IActionResult Create()
         {
-            ViewData["CourseId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace LexiconLMS.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Users, "Id", "Id", @module.CourseId);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", @module.CourseId);
             return View(@module);
         }
 
@@ -83,7 +83,7 @@ namespace LexiconLMS.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Users, "Id", "Id", @module.CourseId);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", @module.CourseId);
             return View(@module);
         }
 
@@ -119,7 +119,7 @@ namespace LexiconLMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Users, "Id", "Id", @module.CourseId);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", @module.CourseId);
             return View(@module);
         }
 

@@ -20,7 +20,7 @@ namespace LexiconLMS
                 var userManager = services.GetRequiredService<UserManager<User>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                var roleNames = new[] { "Teacher", "Student" };
+                var roleNames = new[] { "Admin", "Member" };
 
                 foreach (var name in roleNames)
                 {
