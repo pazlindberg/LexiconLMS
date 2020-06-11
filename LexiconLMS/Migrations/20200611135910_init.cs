@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LexiconLMS.Migrations
 {
-    public partial class hej : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,21 +22,6 @@ namespace LexiconLMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    StartDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TaskType",
                 columns: table => new
                 {
@@ -47,6 +32,21 @@ namespace LexiconLMS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TaskType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 30, nullable: false),
+                    Description = table.Column<string>(maxLength: 31, nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -97,9 +97,9 @@ namespace LexiconLMS.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Courses_CourseId",
+                        name: "FK_AspNetUsers_Users_CourseId",
                         column: x => x.CourseId,
-                        principalTable: "Courses",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -120,9 +120,9 @@ namespace LexiconLMS.Migrations
                 {
                     table.PrimaryKey("PK_Modules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Modules_Courses_CourseId",
+                        name: "FK_Modules_Users_CourseId",
                         column: x => x.CourseId,
-                        principalTable: "Courses",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -242,24 +242,24 @@ namespace LexiconLMS.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Courses",
-                columns: new[] { "Id", "Description", "Name", "StartDate" },
-                values: new object[] { 1, "Kurs1beskrivning", "Kurs1", new DateTime(2020, 6, 8, 14, 41, 4, 28, DateTimeKind.Local).AddTicks(564) });
-
-            migrationBuilder.InsertData(
                 table: "TaskType",
                 columns: new[] { "Id", "Name" },
                 values: new object[] { 1, "Tasktype1" });
 
             migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Description", "Name", "StartDate" },
+                values: new object[] { 1, "Kurs1beskrivning", "Kurs1", new DateTime(2020, 6, 11, 15, 59, 10, 134, DateTimeKind.Local).AddTicks(9613) });
+
+            migrationBuilder.InsertData(
                 table: "Modules",
                 columns: new[] { "Id", "CourseId", "Description", "EndDate", "Name", "StartDate" },
-                values: new object[] { 1, 1, "Module1description", new DateTime(2020, 6, 8, 14, 41, 4, 32, DateTimeKind.Local).AddTicks(6844), "Module1", new DateTime(2020, 6, 8, 14, 41, 4, 32, DateTimeKind.Local).AddTicks(5934) });
+                values: new object[] { 1, 1, "Module1description", new DateTime(2020, 6, 11, 15, 59, 10, 138, DateTimeKind.Local).AddTicks(2256), "Module1", new DateTime(2020, 6, 11, 15, 59, 10, 138, DateTimeKind.Local).AddTicks(1660) });
 
             migrationBuilder.InsertData(
                 table: "Tasks",
                 columns: new[] { "Id", "EndDate", "ModuleId", "Name", "StartDate", "TaskTypeId" },
-                values: new object[] { 1, new DateTime(2020, 6, 8, 14, 41, 4, 33, DateTimeKind.Local).AddTicks(2341), 1, "Model1", new DateTime(2020, 6, 8, 14, 41, 4, 33, DateTimeKind.Local).AddTicks(1495), 1 });
+                values: new object[] { 1, new DateTime(2020, 6, 11, 15, 59, 10, 138, DateTimeKind.Local).AddTicks(5771), 1, "Model1", new DateTime(2020, 6, 11, 15, 59, 10, 138, DateTimeKind.Local).AddTicks(5229), 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -354,7 +354,7 @@ namespace LexiconLMS.Migrations
                 name: "TaskType");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "Users");
         }
     }
 }

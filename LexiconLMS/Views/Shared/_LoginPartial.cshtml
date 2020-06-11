@@ -2,19 +2,21 @@
 @using System.Data
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var id = user?.Id;
+ }
 
     <ul class="navbar-nav">
-        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Teacher"))
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+                <a class="nav-link text-dark" asp-area="Identity" asp-route-id="@id" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-            </li>
+       
             <li class="nav-item">
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
@@ -22,7 +24,7 @@
             </li>
 
         }
-        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Member"))
+        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Student"))
         {
 
             <li class="nav-item">
