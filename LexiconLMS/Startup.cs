@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using LexiconLMS.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using AutoMapper;
 
 namespace LexiconLMS
 {
@@ -36,6 +37,8 @@ namespace LexiconLMS
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).
                 AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.Configure<IdentityOptions>(options =>
             {

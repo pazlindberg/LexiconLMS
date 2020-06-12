@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using LexiconLMS.Data;
 using LexiconLMS.Models;
+using LexiconLMS.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +22,13 @@ namespace LexiconLMS.Controllers
         //}
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
 
-        public UserController(ApplicationDbContext context, UserManager<User> userManager)
+        public UserController(ApplicationDbContext context, UserManager<User> userManager, IMapper mapper)
         {
             _context = context;
             _userManager = userManager;
+            _mapper = mapper;
 
         }
 
@@ -66,7 +70,11 @@ namespace LexiconLMS.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
+            //var user = await _context.Users.FindAsync(id);
+            //var vehicle = await mapper.ProjectTo<MemberDetailsViewModel>(_context.Members)
+            // .FirstOrDefaultAsync(s => s.Id == id);
+            var user = await _mapper.ProjectTo<UserViewModel>(_context.Users)
+                .FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -80,9 +88,12 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Email,PhoneNumber")] User user)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Email,PhoneNumber")] UserViewModel user)
         {
             var user1 = await _userManager.FindByIdAsync(id);
+            //var user = await _mapper.ProjectTo<UserViewModel>(_context.Users)
+            //    .FirstOrDefaultAsync(u => u.Id == id);
+
             if (id != user.Id)
             {
                 return NotFound();
