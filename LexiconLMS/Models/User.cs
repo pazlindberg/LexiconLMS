@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,15 +10,21 @@ namespace LexiconLMS.Models
     
     public class User : IdentityUser
     {
-        
+        [Required]
+        [Display(Name = "FirstName")]
+        [StringLength(30)]
         public string FirstName { get; set; }
-        public int? CourseId { get; set; }
+        
+        
+        [Required]
+        [Display(Name = "LastName")]
+        [StringLength(30)]
         public string LastName { get; set; }
+
         public string FullName { get { return (($"{FirstName} {LastName}")); } }
 
-       
-        //// user ID from AspNetUser table.
-        //public string OwnerID { get; set; }
+
+        public int? CourseId { get; set; }
         public Course Course { get; set; }
         
 

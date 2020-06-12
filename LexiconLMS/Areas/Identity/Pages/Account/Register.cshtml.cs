@@ -126,7 +126,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
                     else
                     {
                         
-                        return LocalRedirect(returnUrl);
+                        return LocalRedirect("~/User");
                     }
                 }
                 foreach (var error in result.Errors)
