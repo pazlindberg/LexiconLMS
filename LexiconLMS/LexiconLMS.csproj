@@ -12,8 +12,16 @@
     <None Remove="TagHelper\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20200611104427_TaskTypes.cs" />
+    <Compile Remove="Migrations\20200611104427_TaskTypes.Designer.cs" />
+    <Compile Remove="Migrations\20200611123045_ufoskalle.cs" />
+    <Compile Remove="Migrations\20200611123045_ufoskalle.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.2" />

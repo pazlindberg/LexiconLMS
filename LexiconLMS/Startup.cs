@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using LexiconLMS.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using AutoMapper;
+using LexiconLMS.Services;
 
 namespace LexiconLMS
 {
@@ -47,6 +49,12 @@ namespace LexiconLMS
                 options.Password.RequiredUniqueChars = 2;
                 options.Password.RequiredLength = 4;
             });
+
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<ICourseDropdown, CourseDropdown>();
+            services.AddScoped<IModuleDropdown, ModuleDropdown>();
+            services.AddScoped<ITaskDropdown, TaskDropdown>();
+            services.AddScoped<ITaskTypeDropdown, TaskTypeDropdown>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

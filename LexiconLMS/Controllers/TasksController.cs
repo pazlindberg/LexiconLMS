@@ -7,23 +7,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LexiconLMS.Data;
 using LexiconLMS.Models;
+using AutoMapper;
+using LexiconLMS.Models.ViewModel;
 
 namespace LexiconLMS.Controllers
 {
     public class TasksController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper mapper;
 
-        public TasksController(ApplicationDbContext context)
+        public TasksController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
         // GET: Tasks
         public async Task<IActionResult> Index()
         {
-            var lexiconLMSContext = _context.Tasks.Include(t => t.Module).Include(t => t.TaskType);
-            return View(await lexiconLMSContext.ToListAsync());
+            //var lexiconLMSContext = _context.Tasks.Include(t => t.Module).Include(t => t.TaskType);
+            //return View(await lexiconLMSContext.ToListAsync());
+
+            var model = await mapper.ProjectTo<TaskListViewModel>(_context.Tasks).ToListAsync();
+            return View(model);
         }
 
         // GET: Tasks/Details/5
@@ -34,10 +41,11 @@ namespace LexiconLMS.Controllers
                 return NotFound();
             }
 
-            var task = await _context.Tasks
-                .Include(t => t.Module)
-                .Include(t => t.TaskType)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var task = await mapper.ProjectTo<TaskDetailsViewModel>(_context.Tasks).FirstOrDefaultAsync(t => t.Id == id);
+            //var task = await _context.Tasks
+            //    .Include(t => t.Module)
+            //    .Include(t => t.TaskType)
+            //    .FirstOrDefaultAsync(m => m.Id == id);
             if (task == null)
             {
                 return NotFound();
@@ -50,8 +58,8 @@ namespace LexiconLMS.Controllers
         public IActionResult Create()
         {
             
-            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name");
-            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name");
+            //ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name");
+            //ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name");
             return View();
         }
 
@@ -60,16 +68,23 @@ namespace LexiconLMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,StartDate,EndDate,ModuleId,TaskTypeId")] Models.Task task)
+        public async Task<IActionResult> Create(/*[Bind("Id,Name,StartDate,EndDate,ModuleId,TaskTypeId")]*/ TaskCreateViewModel task)
         {
+
+            if (task.EndDate < task.StartDate)
+            {
+                ModelState.AddModelError("EndDate", "Sluttiden kan inte vara tidigare än starttiden");
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Add(task);
+                var newtask = mapper.Map<Models.Task>(task);
+                _context.Add(newtask);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
-            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
+            //ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
+            //ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
             return View(task);
         }
 
@@ -81,13 +96,14 @@ namespace LexiconLMS.Controllers
                 return NotFound();
             }
 
-            var task = await _context.Tasks.FindAsync(id);
+            //var task = await _context.Tasks.FindAsync(id);
+            var task = await mapper.ProjectTo<TaskEditViewModel>(_context.Tasks).FirstOrDefaultAsync(e=> e.Id == id);
             if (task == null)
             {
                 return NotFound();
             }
-            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
-            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
+            //ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
+            //ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
             return View(task);
         }
 
@@ -98,9 +114,15 @@ namespace LexiconLMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate,ModuleId,TaskTypeId")] Models.Task task)
         {
+            var model = await mapper.ProjectTo<TaskEditViewModel>(_context.Tasks).FirstOrDefaultAsync(e => e.Id == id);
             if (id != task.Id)
             {
                 return NotFound();
+            }
+
+            if (model.EndDate < model.StartDate)
+            {
+                ModelState.AddModelError("EndDate", "Sluttiden kan inte vara tidigare än starttiden");
             }
 
             if (ModelState.IsValid)
@@ -123,9 +145,9 @@ namespace LexiconLMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
-            ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
-            return View(task);
+            //ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
+            //ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
+            return View(model);
         }
 
         // GET: Tasks/Delete/5
@@ -136,10 +158,11 @@ namespace LexiconLMS.Controllers
                 return NotFound();
             }
 
-            var task = await _context.Tasks
-                .Include(t => t.Module)
-                .Include(t => t.TaskType)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var task = await mapper.ProjectTo<TaskDeleteViewModel>(_context.Tasks).FirstOrDefaultAsync(t => t.Id == id);
+            //var task = await _context.Tasks
+            //    .Include(t => t.Module)
+            //    .Include(t => t.TaskType)
+            //    .FirstOrDefaultAsync(m => m.Id == id);
             if (task == null)
             {
                 return NotFound();
@@ -153,6 +176,7 @@ namespace LexiconLMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var model = await mapper.ProjectTo<TaskDeleteViewModel>(_context.Tasks).FirstOrDefaultAsync(t => t.Id == id);
             var task = await _context.Tasks.FindAsync(id);
             _context.Tasks.Remove(task);
             await _context.SaveChangesAsync();

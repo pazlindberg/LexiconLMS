@@ -136,5 +136,6 @@ namespace LexiconLMS.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Task> Tasks { get; set; }
+        public DbSet<TaskType> TaskTypes { get; set; }
     }
 }

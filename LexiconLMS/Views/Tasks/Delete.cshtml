@@ -1,12 +1,12 @@
-﻿@model LexiconLMS.Models.Task
+﻿@model LexiconLMS.Models.ViewModel.TaskDeleteViewModel
 
 @{
-    ViewData["Title"] = "Ta bort";
+    ViewData["Title"] = "Radera aktivitet";
 }
 
-<h1>Ta bort</h1>
+<h1>Radera aktivitet</h1>
 
-<h3>Är du säker på att du vill ta bort @Html.DisplayFor(model => model.Name)?</h3>
+<h3>Är du säker på att du vill radera @Model.Name?</h3>
 <div>
     @*<h4>Aktivitet</h4>*@
     <hr />
@@ -45,7 +45,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Ta bort" class="btn btn-danger" /> |
+        <input type="submit" value="Radera" class="btn btn-danger" /> |
         <a asp-action="Index">Tillbaka till aktivitetslistan</a>
     </form>
 </div>
