@@ -19,6 +19,7 @@ namespace LexiconLMS.Data
             CreateMap<Models.Task, TaskEditViewModel>();
             CreateMap<Models.Task, TaskDetailsViewModel>();
             CreateMap<Models.Task, TaskDeleteViewModel>();
+            CreateMap<User, UserViewModel>();
         }
     }
 }
