@@ -1,12 +1,14 @@
-﻿@model LexiconLMS.Models.Task
+﻿@model LexiconLMS.Models.ViewModel.TaskCreateViewModel
+@inject LexiconLMS.Services.IModuleDropdown moduledropdown
+@inject LexiconLMS.Services.ITaskTypeDropdown taskdropdown
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Skapa ny aktivitet";
 }
 
-<h1>Create</h1>
+<h1>Skapa ny aktivitet</h1>
 
-<h4>Task</h4>
+@*<h4>Task</h4>*@
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -29,21 +31,33 @@
             </div>
             <div class="form-group">
                 <label asp-for="ModuleId" class="control-label"></label>
-                <select asp-for="ModuleId" class ="form-control" asp-items="ViewBag.ModuleId"></select>
+                <select asp-for="ModuleId" asp-items="@moduledropdown.GetSelectList()" class="form-control">
+                    @*<option selected="selected" value="">Modul</option>*@
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="TaskTypeId" class="control-label"></label>
-                <select asp-for="TaskTypeId" class ="form-control" asp-items="ViewBag.TaskTypeId"></select>
+                <select asp-for="TaskTypeId" asp-items="@taskdropdown.GetSelectList()" class="form-control">
+                    @*<option selected="selected" value="">Aktivitet</option>*@
+                </select>
             </div>
+            @*<div class="form-group">
+            <label asp-for="ModuleId" class="control-label"></label>
+            <select asp-for="ModuleId" class="form-control" asp-items="ViewBag.ModuleId"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="TaskTypeId" class="control-label"></label>
+            <select asp-for="TaskTypeId" class="form-control" asp-items="ViewBag.TaskTypeId"></select>
+        </div>*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Spara" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Tillbaka till aktivitetslistan</a>
 </div>
 
 @section Scripts {
