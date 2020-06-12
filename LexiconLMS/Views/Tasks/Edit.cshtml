@@ -1,12 +1,14 @@
-﻿@model LexiconLMS.Models.Task
+﻿@model LexiconLMS.Models.ViewModel.TaskEditViewModel
+@inject LexiconLMS.Services.IModuleDropdown moduledropdown
+@inject LexiconLMS.Services.ITaskTypeDropdown taskdropdown
 
 @{
-    ViewData["Title"] = "Redigera";
+    ViewData["Title"] = "Ändra";
 }
 
-<h1>@Html.DisplayFor(model => model.Name)</h1>
+<h1>Ändra i @Model.Name</h1>
 
-<h4>Redigera</h4>
+@*<h4>Task</h4>*@
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+                <input asp-for="StartDate" class="form-control"/>
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,6 +32,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="ModuleId" class="control-label"></label>
+                <select asp-for="ModuleId" asp-items="@moduledropdown.GetSelectList()" class="form-control">
+                    @*<option selected="selected" value="">Modul</option>*@
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskTypeId" class="control-label"></label>
+                <select asp-for="TaskTypeId" asp-items="@taskdropdown.GetSelectList()" class="form-control">
+                    @*<option selected="selected" value="">Aktivitet</option>*@
+                </select>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="ModuleId" class="control-label"></label>
                 <select asp-for="ModuleId" class="form-control" asp-items="ViewBag.ModuleId"></select>
                 <span asp-validation-for="ModuleId" class="text-danger"></span>
             </div>
@@ -37,7 +51,7 @@
                 <label asp-for="TaskTypeId" class="control-label"></label>
                 <select asp-for="TaskTypeId" class="form-control" asp-items="ViewBag.TaskTypeId"></select>
                 <span asp-validation-for="TaskTypeId" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Spara" class="btn btn-primary" />
             </div>

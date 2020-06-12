@@ -30,11 +30,11 @@ namespace LexiconLMS.Data
                 var course2 = new Course
                 {
                     Id = 2,
-                    Name = "Särskrivningskurs",
-                    Description = "mer om särskrivning",
+                    Name = "Sär skrivnings kurs",
+                    Description = "mer om sär skri vning",
                     StartDate = DateTime.Now
+                    
                 };
-
                 var course3 = new Course
                 {
                     Id = 3,
@@ -136,5 +136,6 @@ namespace LexiconLMS.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Task> Tasks { get; set; }
+        public DbSet<TaskType> TaskTypes { get; set; }
     }
 }

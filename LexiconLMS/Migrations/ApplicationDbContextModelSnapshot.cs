@@ -49,21 +49,21 @@ namespace LexiconLMS.Migrations
                             Id = 1,
                             Description = "mer om snus",
                             Name = "Snuskurs",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 111, DateTimeKind.Local).AddTicks(4255)
+                            StartDate = new DateTime(2020, 6, 12, 9, 17, 58, 35, DateTimeKind.Local).AddTicks(8433)
                         },
                         new
                         {
                             Id = 2,
                             Description = "mer om särskrivning",
                             Name = "Särskrivningskurs",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 114, DateTimeKind.Local).AddTicks(7771)
+                            StartDate = new DateTime(2020, 6, 12, 9, 17, 58, 37, DateTimeKind.Local).AddTicks(8659)
                         },
                         new
                         {
                             Id = 3,
                             Description = "fest",
                             Name = "Värdegrundskurs",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 114, DateTimeKind.Local).AddTicks(7830)
+                            StartDate = new DateTime(2020, 6, 12, 9, 17, 58, 37, DateTimeKind.Local).AddTicks(8696)
                         });
                 });
 
@@ -101,27 +101,27 @@ namespace LexiconLMS.Migrations
                             Id = 1,
                             CourseId = 1,
                             Description = "Module1description",
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(4019),
+                            EndDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(1123),
                             Name = "SNUS A",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(2913)
+                            StartDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(711)
                         },
                         new
                         {
                             Id = 2,
                             CourseId = 1,
                             Description = "Module2description",
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(4972),
+                            EndDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(1577),
                             Name = "SNUS B",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(4951)
+                            StartDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(1561)
                         },
                         new
                         {
                             Id = 3,
                             CourseId = 3,
                             Description = "Module3description",
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(5133),
+                            EndDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(1590),
                             Name = "Värdegrund A",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(5130)
+                            StartDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(1587)
                         });
                 });
 
@@ -159,28 +159,28 @@ namespace LexiconLMS.Migrations
                         new
                         {
                             Id = 1,
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 116, DateTimeKind.Local).AddTicks(857),
+                            EndDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(3798),
                             ModuleId = 1,
                             Name = "TASK 1 (snusa)",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 115, DateTimeKind.Local).AddTicks(9946),
+                            StartDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(3403),
                             TaskTypeId = 1
                         },
                         new
                         {
                             Id = 2,
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 116, DateTimeKind.Local).AddTicks(1874),
+                            EndDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(4786),
                             ModuleId = 2,
                             Name = "TASK 2 (snusa mer)",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 116, DateTimeKind.Local).AddTicks(1836),
+                            StartDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(4755),
                             TaskTypeId = 1
                         },
                         new
                         {
                             Id = 3,
-                            EndDate = new DateTime(2020, 6, 11, 19, 59, 1, 116, DateTimeKind.Local).AddTicks(1896),
+                            EndDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(4798),
                             ModuleId = 2,
                             Name = "TASK 3 (snusa ännu mer)",
-                            StartDate = new DateTime(2020, 6, 11, 19, 59, 1, 116, DateTimeKind.Local).AddTicks(1892),
+                            StartDate = new DateTime(2020, 6, 12, 9, 17, 58, 38, DateTimeKind.Local).AddTicks(4795),
                             TaskTypeId = 1
                         });
                 });
@@ -197,7 +197,7 @@ namespace LexiconLMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TaskType");
+                    b.ToTable("TaskTypes");
 
                     b.HasData(
                         new
