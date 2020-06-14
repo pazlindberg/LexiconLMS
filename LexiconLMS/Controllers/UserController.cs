@@ -9,7 +9,10 @@ using LexiconLMS.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using LexiconLMS.Controllers;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace LexiconLMS.Controllers
 {
@@ -22,13 +25,15 @@ namespace LexiconLMS.Controllers
         //}
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
+        RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
 
-        public UserController(ApplicationDbContext context, UserManager<User> userManager, IMapper mapper)
+        public UserController(ApplicationDbContext context, UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
             _mapper = mapper;
+            _roleManager = roleManager;
 
         }
 
@@ -69,17 +74,24 @@ namespace LexiconLMS.Controllers
             {
                 return NotFound();
             }
+                          
 
-            //var user = await _context.Users.FindAsync(id);
-            //var vehicle = await mapper.ProjectTo<MemberDetailsViewModel>(_context.Members)
-            // .FirstOrDefaultAsync(s => s.Id == id);
-            var user = await _mapper.ProjectTo<UserViewModel>(_context.Users)
+            var userView = await _mapper.ProjectTo<UserViewModel>(_context.Users)
                 .FirstOrDefaultAsync(u => u.Id == id);
-            if (user == null)
+            var userToUpdate = await _userManager.FindByIdAsync(id);
+            var roles = await _userManager.GetRolesAsync(userToUpdate);
+            userView.Role = roles[0];
+
+            if (userView == null)
             {
                 return NotFound();
             }
-            return View(user);
+
+            ViewData["Role"] = new SelectList(_roleManager.Roles, "Name", "Name");
+            
+            CourseDropDownList();
+
+            return View(userView);
         }
 
         // POST: Courses/Edit/5
@@ -88,35 +100,37 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Email,PhoneNumber")] UserViewModel user)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Email,PhoneNumber,Role,CourseId")] UserViewModel user)
         {
-            var user1 = await _userManager.FindByIdAsync(id);
-            //var user = await _mapper.ProjectTo<UserViewModel>(_context.Users)
-            //    .FirstOrDefaultAsync(u => u.Id == id);
-
-            if (id != user.Id)
+            
+            if (id == null)
             {
                 return NotFound();
             }
 
+            //get user form DB with Id
+            var userToUpdate = await _userManager.FindByIdAsync(id);
+            //copy properties from UserViewModel to user
+            PropertyCopier.CopyTo(user, userToUpdate);
+            //remove old roll and add the new one 
+            var roles = await _userManager.GetRolesAsync(userToUpdate);
+            await _userManager.RemoveFromRoleAsync(userToUpdate,roles[0]);
+            var addToRoleResult = await _userManager.AddToRoleAsync(userToUpdate, user.Role);
+            //check if the role is added or not 
+            if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
             if (ModelState.IsValid)
             {
                 try
                 {
-                    //_context.Update(user);
-                    //await _context.SaveChangesAsync();
-                    user1.FirstName = user.FirstName;
-                    user1.LastName = user.LastName;
-                    user1.Email = user.Email;
-                    user1.PhoneNumber = user.PhoneNumber;
-                    var updateuser = await _userManager.UpdateAsync(user1);
+                    _context.Update(userToUpdate);
+                    await _context.SaveChangesAsync();
                     
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (UserExists(userToUpdate.Id))
                     {
-                        return NotFound();
+                       return NotFound();
                     }
                     else
                     {
@@ -125,11 +139,16 @@ namespace LexiconLMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            CourseDropDownList(user.CourseId);
+            //RoleDropDownList(user.Role);
+            ViewData["Role"] = new SelectList(_roleManager.Roles, "Name", "Name", roles[0]);
             return View(user);
         }
 
 
         // GET: users/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -164,6 +183,22 @@ namespace LexiconLMS.Controllers
         private bool UserExists(string id)
         {
             return _context.Users.Any(e => e.Id == id);
+        }
+
+        
+        private void CourseDropDownList(object selectedCourse = null)
+        {
+            var courseQuery = from d in _context.Courses
+                              orderby d.Name
+                              select d;
+            ViewBag.courseId = new SelectList(courseQuery.AsNoTracking(), "Id", "Name", selectedCourse);
+        }
+        private void RoleDropDownList(object selectedrole = null)
+        {
+
+            var roleQuery = _roleManager.Roles;
+                              
+            ViewBag.Role = new SelectList(roleQuery.AsNoTracking(), "Id", "Name", selectedrole);
         }
     }
 }

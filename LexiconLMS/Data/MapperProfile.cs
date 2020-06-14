@@ -20,6 +20,11 @@ namespace LexiconLMS.Data
             CreateMap<Models.Task, TaskDetailsViewModel>();
             CreateMap<Models.Task, TaskDeleteViewModel>();
             CreateMap<User, UserViewModel>();
+            //CreateMap<Members, MemberViewModel>()
+            //    .ForMember(
+            //    dest => dest.NumberOfVehicles,
+            //    from => from.MapFrom(s => s.Vehicles.Count));
+            
         }
     }
 }

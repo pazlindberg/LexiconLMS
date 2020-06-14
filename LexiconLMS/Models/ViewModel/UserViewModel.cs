@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -34,6 +35,12 @@ namespace LexiconLMS.Models.ViewModel
         [DataType(DataType.EmailAddress)]
         [EmailAddress(ErrorMessage = "The Email field is not a valid e-mail address.")]
         public string Email { get; set; }
+        public string Role { get; set; }
+
+        public int? CourseId { get; set; }
+        public Course Course { get; set; }
+
+        
 
     }
 }
