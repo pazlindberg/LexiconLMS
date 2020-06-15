@@ -141,7 +141,7 @@ namespace LexiconLMS.Controllers
             }
 
             CourseDropDownList(user.CourseId);
-            //RoleDropDownList(user.Role);
+            
             ViewData["Role"] = new SelectList(_roleManager.Roles, "Name", "Name", roles[0]);
             return View(user);
         }
@@ -191,14 +191,9 @@ namespace LexiconLMS.Controllers
             var courseQuery = from d in _context.Courses
                               orderby d.Name
                               select d;
-            ViewBag.courseId = new SelectList(courseQuery.AsNoTracking(), "Id", "Name", selectedCourse);
+            
+            ViewData["courseId"] = new SelectList(courseQuery.AsNoTracking(), "Id", "Name", selectedCourse);
         }
-        private void RoleDropDownList(object selectedrole = null)
-        {
-
-            var roleQuery = _roleManager.Roles;
-                              
-            ViewBag.Role = new SelectList(roleQuery.AsNoTracking(), "Id", "Name", selectedrole);
-        }
+        
     }
 }
