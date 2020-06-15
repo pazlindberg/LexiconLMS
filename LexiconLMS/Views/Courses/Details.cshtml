@@ -55,11 +55,11 @@
 
         else
         {
-            <li><h1>no modules</h1></li>
+            <li><h4>no modules</h4></li>
         }
     </ul>
     <p>
-        <a class="btn btn-success" asp-action="Create" asp-controller="Modules">Ny modul</a>
+        <a class="btn btn-success" asp-action="CourseCreate" asp-controller="Modules" asp-route-id="@Model.Id">Ny modul</a>
     </p>
 </div>
 
