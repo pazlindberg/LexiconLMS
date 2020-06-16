@@ -151,7 +151,63 @@ namespace LexiconLMS.Controllers
             ViewData["Role"] = new SelectList(_roleManager.Roles, "Name", "Name", roles[0]);
             return View(viewUser);
         }
+        //Get: 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddCourse(int? id)
+        {
+            var availableUsers = await _context.Users.Where(u => u.CourseId == null).ToListAsync();
+            var usedUsers = await _context.Users.Where(u => u.CourseId == id).ToListAsync();
+            var course = await _context.Courses.FindAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+            ViewData["Users"] = new SelectList(availableUsers, "Id", "Email");
+            ViewData["coursename"] = course.Name;
+            //ViewData["coursid"] = id;
+            ViewBag.courseid = id;
+            return View();
+        }
 
+        //Post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddCourse(int? id1, [Bind("Id,Email")] User user)
+        {
+            var userToUpdate = await _userManager.FindByIdAsync(user.Id);
+            if (id1 == null)
+            {
+                return NotFound();
+            }
+            userToUpdate.CourseId = id1;
+            var availableUsers = _context.Users.Where(u => u.CourseId == null).ToList();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(userToUpdate);
+                    await _context.SaveChangesAsync();
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (UserExists(userToUpdate.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("AddCourse", new { id = id1 });
+            }
+            ViewData["Users"] = new SelectList(availableUsers, "Id", "Email");
+
+            return View(userToUpdate);
+        }
 
         // GET: users/Delete/5
         [Authorize(Roles = "Admin")]
