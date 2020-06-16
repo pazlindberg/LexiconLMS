@@ -40,7 +40,11 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+
+            var users = await _context.Users
+                .Include(u => u.Course).ToListAsync();
+
+            return View(users);
         }
 
 

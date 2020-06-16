@@ -12,7 +12,7 @@ namespace LexiconLMS.Models
         public int Id { get; set; }
 
         [Required]
-        [Display(Name = "Namn")]
+        [Display(Name = "Kurs Namn")]
         [StringLength(30)]
         public string Name { get; set; }
 
@@ -26,8 +26,9 @@ namespace LexiconLMS.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}",ApplyFormatInEditMode = true)]
         
-        public DateTime StartDate { get; set; } 
-        
+        public DateTime StartDate { get; set; }
+
+        [Display(Name = "kursdeltagarna")]
         public ICollection<User> Users { get; set; }
         public ICollection<Module> Modules { get; set; }
 

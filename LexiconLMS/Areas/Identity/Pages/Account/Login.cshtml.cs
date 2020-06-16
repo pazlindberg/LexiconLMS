@@ -70,6 +70,8 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
+
+            var _singInUser = await _userManager.GetUserAsync(User);
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
