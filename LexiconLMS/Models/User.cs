@@ -10,13 +10,11 @@ namespace LexiconLMS.Models
     
     public class User : IdentityUser
     {
-        [Required]
         [Display(Name = "FirstName")]
         [StringLength(30)]
         public string FirstName { get; set; }
         
         
-        [Required]
         [Display(Name = "LastName")]
         [StringLength(30)]
         public string LastName { get; set; }

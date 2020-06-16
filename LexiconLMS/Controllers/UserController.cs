@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,7 +74,7 @@ namespace LexiconLMS.Controllers
             {
                 return NotFound();
             }
-                          
+
 
             var userView = await _mapper.ProjectTo<UserViewModel>(_context.Users)
                 .FirstOrDefaultAsync(u => u.Id == id);
@@ -88,7 +88,7 @@ namespace LexiconLMS.Controllers
             }
 
             ViewData["Role"] = new SelectList(_roleManager.Roles, "Name", "Name");
-            
+
             CourseDropDownList();
 
             return View(userView);
@@ -102,7 +102,7 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Email,PhoneNumber,Role,CourseId")] UserViewModel user)
         {
-            
+
             if (id == null)
             {
                 return NotFound();
@@ -114,7 +114,7 @@ namespace LexiconLMS.Controllers
             PropertyCopier.CopyTo(user, userToUpdate);
             //remove old roll and add the new one 
             var roles = await _userManager.GetRolesAsync(userToUpdate);
-            await _userManager.RemoveFromRoleAsync(userToUpdate,roles[0]);
+            await _userManager.RemoveFromRoleAsync(userToUpdate, roles[0]);
             var addToRoleResult = await _userManager.AddToRoleAsync(userToUpdate, user.Role);
             //check if the role is added or not 
             if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
@@ -124,13 +124,13 @@ namespace LexiconLMS.Controllers
                 {
                     _context.Update(userToUpdate);
                     await _context.SaveChangesAsync();
-                    
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (UserExists(userToUpdate.Id))
                     {
-                       return NotFound();
+                        return NotFound();
                     }
                     else
                     {
@@ -141,11 +141,68 @@ namespace LexiconLMS.Controllers
             }
 
             CourseDropDownList(user.CourseId);
-            
+
             ViewData["Role"] = new SelectList(_roleManager.Roles, "Name", "Name", roles[0]);
             return View(user);
         }
 
+        //Get: 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddCourse(int? id)
+        {
+            var availableUsers = await _context.Users.Where(u => u.CourseId == null).ToListAsync();
+            var usedUsers = await _context.Users.Where(u => u.CourseId == id).ToListAsync();
+            var course = await _context.Courses.FindAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+            ViewData["Users"] = new SelectList(availableUsers, "Id", "Email");
+            ViewData["coursename"] = course.Name;
+            //ViewData["coursid"] = id;
+            ViewBag.courseid = id;
+            return View();
+        }
+
+        //Post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddCourse(int? id1, [Bind("Id,Email")] User user)
+        {
+            var userToUpdate = await _userManager.FindByIdAsync(user.Id);
+            if (id1 == null)
+            {
+                return NotFound();
+            }
+            userToUpdate.CourseId = id1;
+            var availableUsers = _context.Users.Where(u => u.CourseId == null).ToList();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(userToUpdate);
+                    await _context.SaveChangesAsync();
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (UserExists(userToUpdate.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("AddCourse", new { id = id1 });
+            }
+            ViewData["Users"] = new SelectList(availableUsers, "Id", "Email");
+
+            return View(userToUpdate);
+        }
 
         // GET: users/Delete/5
         [Authorize(Roles = "Admin")]
@@ -156,14 +213,14 @@ namespace LexiconLMS.Controllers
                 return NotFound();
             }
 
-            
+
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
-            
-            
+
+
 
             return View(user);
         }
@@ -185,15 +242,15 @@ namespace LexiconLMS.Controllers
             return _context.Users.Any(e => e.Id == id);
         }
 
-        
+
         private void CourseDropDownList(object selectedCourse = null)
         {
             var courseQuery = from d in _context.Courses
                               orderby d.Name
                               select d;
-            
+
             ViewData["courseId"] = new SelectList(courseQuery.AsNoTracking(), "Id", "Name", selectedCourse);
         }
-        
+
     }
 }
