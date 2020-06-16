@@ -35,9 +35,12 @@ namespace LexiconLMS.Models
             {
                 return NotFound();
             }
+            
 
             var course = await _context.Courses
                 .Include(c => c.Modules) //theninclude för att traversera activities osv
+                .Include(u => u.Users)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
             //var participatedUsers = _context.Users.Where(u => u.CourseId == id).ToList();
             //var newAddUser = _context.Users.Where(u => u.CourseId == null);
