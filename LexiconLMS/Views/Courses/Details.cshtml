@@ -26,8 +26,22 @@
             @Html.DisplayNameFor(model => model.StartDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate) 
+            @Html.DisplayFor(model => model.StartDate)
         </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Users)
+        </dt>
+        @*show users*@ 
+        @*<dd class="col-sm-8">
+            @foreach (var user in Model.Users)
+            {
+
+                <a asp-controller="Vehicles" asp-action="Details" asp-route-id="@user.Id">
+                    @user.FullName
+                </a><br />
+
+            }
+        </dd>*@
     </dl>
 </div>
 

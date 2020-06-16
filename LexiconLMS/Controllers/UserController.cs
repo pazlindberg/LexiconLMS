@@ -57,6 +57,8 @@ namespace LexiconLMS.Controllers
             var user = await _context.Users
                 .Include(c => c.Course) //theninclude för att traversera activities osv
                 .FirstOrDefaultAsync(m => m.Id == id);
+            //var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == user.CourseId);
+            //user.Course = course;
 
             if (user == null)
             {
@@ -100,7 +102,7 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Email,PhoneNumber,Role,CourseId")] UserViewModel user)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Email,PhoneNumber,Role,CourseId")] UserViewModel viewUser)
         {
             
             if (id == null)
@@ -110,12 +112,16 @@ namespace LexiconLMS.Controllers
 
             //get user form DB with Id
             var userToUpdate = await _userManager.FindByIdAsync(id);
-            //copy properties from UserViewModel to user
-            PropertyCopier.CopyTo(user, userToUpdate);
+            //copy properties from UserViewModel to user (Des, Srce)
+            PropertyCopier.CopyTo(viewUser, userToUpdate);
             //remove old roll and add the new one 
             var roles = await _userManager.GetRolesAsync(userToUpdate);
             await _userManager.RemoveFromRoleAsync(userToUpdate,roles[0]);
-            var addToRoleResult = await _userManager.AddToRoleAsync(userToUpdate, user.Role);
+            var addToRoleResult = await _userManager.AddToRoleAsync(userToUpdate, viewUser.Role);
+
+            // add course to user
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == viewUser.CourseId);
+            userToUpdate.Course = course;
             //check if the role is added or not 
             if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
             if (ModelState.IsValid)
@@ -140,10 +146,10 @@ namespace LexiconLMS.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            CourseDropDownList(user.CourseId);
+            CourseDropDownList(viewUser.CourseId);
             
             ViewData["Role"] = new SelectList(_roleManager.Roles, "Name", "Name", roles[0]);
-            return View(user);
+            return View(viewUser);
         }
 
 

@@ -25,6 +25,8 @@ namespace LexiconLMS.Models
 
 
         public int? CourseId { get; set; }
+
+        [Display(Name = "Course Name")]
         public Course Course { get; set; }
         
 
