@@ -41,74 +41,46 @@ namespace LexiconLMS
 
                 if (foundUser != null) return;
 
-                var user = new User
-                {
-                    UserName = adminEmail,
-                    Email = adminEmail,
-                    FirstName = "Admin",
-                    LastName = "qwdoihioudqwuqwuui",
-                    //TimeOfRegistration = DateTime.Now
-                };
-                var uemail2 = "info@microsoft.com";
-                var user2 = new User
-                {
-                    UserName = uemail2,
-                    Email = uemail2,
-                    FirstName = "Elev1",
-                    LastName = "Bin Laden",
-                    //TimeOfRegistration = DateTime.Now
-                };
-                var uemail3 = "ringp1@sr.se";
-                var user3 = new User
-                {
-                    UserName = uemail3,
-                    Email = uemail3,
-                    FirstName = "Dårradion",
-                    LastName = "Dåre",
-                    //TimeOfRegistration = DateTime.Now
+
+                //{ "Username", "Email", "FirstName", LastName" }
+                var userArray = new[,] {
+                    { adminEmail, adminEmail, "Admin", "Adminsson" },
+                    { "anders@microsoft.com","anders@microsoft.com", "Anders", "Nilsson" },
+                    { "eva.bjork@sr.se", "eva.bjork@sr.se", "Eva", "Björk" },
+                    { "gunnar.munk@tele2.se", "gunnar.munk@tele2.se", "Gunnar", "Munk" },
+                    { "jan@janne.org", "jan@janne.org", "Jan", "Ivarsson" },
+                    { "hubert@murmur.com", "hubert@murmur.com", "Hubert", "Mur" }
                 };
 
-                var addUserResult = await userManager.CreateAsync(user, "a123");
-                var addUserResult2 = await userManager.CreateAsync(user2, "a123");
-                var addUserResult3 = await userManager.CreateAsync(user3, "a123");
-
-                if (!addUserResult.Succeeded) throw new Exception(string.Join("\n", addUserResult.Errors));
-                
-                if (!addUserResult2.Succeeded) throw new Exception(string.Join("\n", addUserResult2.Errors));
-                
-                if (!addUserResult3.Succeeded) throw new Exception(string.Join("\n", addUserResult3.Errors));
-
-
-                var adminUser = await userManager.FindByNameAsync(adminEmail);
-                var auser2 = await userManager.FindByNameAsync(uemail2);
-                var auser3 = await userManager.FindByNameAsync(uemail3);
-
-                foreach (var role in roleNames)
+                for (int i = 0; i < userArray.GetLength(0); i++)
                 {
-                    if (await userManager.IsInRoleAsync(adminUser, role)) continue;
+                    var users = new User
+                    {
+                        UserName = userArray[i, 0],
+                        Email = userArray[i, 1],
+                        FirstName = userArray[i, 2],
+                        LastName = userArray[i, 3]
+                    };
+                    var addUserResulttst = await userManager.CreateAsync(users, "a123");
+                    if (!addUserResulttst.Succeeded) throw new Exception(string.Join("\n", addUserResulttst.Errors));
+                    var auser = await userManager.FindByNameAsync(users.Email);
 
-                    var addToRoleResult = await userManager.AddToRoleAsync(adminUser, role);
-
-                    if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
-
-                    //2
-                    if (await userManager.IsInRoleAsync(auser2, role)) continue;
-
-                    addToRoleResult = await userManager.AddToRoleAsync(auser2, "Member"); //todo: sen när rollerna ändras med ahmads commit måste detta ändras
-
-                    if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
-
-                    //3
-                    if (await userManager.IsInRoleAsync(auser3, role)) continue;
-
-                    addToRoleResult = await userManager.AddToRoleAsync(auser3, "Member");
-
-                    if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
+                    if (auser.Email == adminEmail)
+                    {
+                        foreach (var role in roleNames)
+                        {
+                            if (await userManager.IsInRoleAsync(auser, role)) continue;
+                            var addToRoleResult = await userManager.AddToRoleAsync(auser, role);
+                            if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
+                        }
+                    }
+                    foreach (var role in roleNames)
+                    {
+                        if (await userManager.IsInRoleAsync(auser, role)) continue;
+                        var addToRoleResult = await userManager.AddToRoleAsync(auser, "Member");
+                        if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
+                    }
                 }
-
-
-
-
             }
         }
     }
