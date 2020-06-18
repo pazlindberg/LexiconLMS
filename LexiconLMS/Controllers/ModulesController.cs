@@ -21,7 +21,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Modules
-        [Authorize(Roles = "Member,Admin")]
+        [Authorize(Roles = "Student,Teacher")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Modules.Include(m => m.Course);
@@ -29,7 +29,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Modules/Details/5
-        [Authorize(Roles = "Member,Admin")]
+        [Authorize(Roles = "Student,Teacher")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,7 +39,9 @@ namespace LexiconLMS.Controllers
 
             var module = await _context.Modules
                 .Include(m => m.Course)
+                .Include(t => t.Tasks)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (module == null)
             {
                 return NotFound();
@@ -49,7 +51,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Modules/Create
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public IActionResult Create()
         {
             ViewData["Courses"] = new SelectList(_context.Courses, "Id", "Name");
@@ -61,7 +63,7 @@ namespace LexiconLMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
             if (ModelState.IsValid)
@@ -74,7 +76,7 @@ namespace LexiconLMS.Controllers
             return View(module);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> CourseCreate(int? id)
         {
             if (id == null)
@@ -90,7 +92,7 @@ namespace LexiconLMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> CourseCreate([Bind("Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
             if (ModelState.IsValid)
@@ -104,7 +106,7 @@ namespace LexiconLMS.Controllers
 
 
         // GET: Modules/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -128,7 +130,7 @@ namespace LexiconLMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
             if (id != module.Id)
@@ -161,7 +163,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Modules/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -183,7 +185,7 @@ namespace LexiconLMS.Controllers
         // POST: Modules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var module = await _context.Modules.FindAsync(id);

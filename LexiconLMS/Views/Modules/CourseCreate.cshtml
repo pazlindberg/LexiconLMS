@@ -43,6 +43,6 @@
 </div>
 
 <div>
-    <a class="btn btn-success" asp-action="Index">Tillbaka till moduler</a>
+    <a class="btn btn-success" asp-controller="Courses" asp-action="Details" asp-route-id="@ViewBag.courseid">Tillbaka till @ViewBag.coursename</a>
 </div>
 

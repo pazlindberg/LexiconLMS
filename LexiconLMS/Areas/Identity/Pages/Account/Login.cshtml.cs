@@ -88,7 +88,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
                     var user = await _userManager.FindByNameAsync(Input.Email);
 
-                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    if (await _userManager.IsInRoleAsync(user, "Teacher"))
                     {
                         return LocalRedirect("/Courses/Index");
                     }

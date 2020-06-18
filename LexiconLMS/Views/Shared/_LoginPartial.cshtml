@@ -7,7 +7,7 @@
 }
 
     <ul class="navbar-nav">
-        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Teacher"))
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Användare</a>
@@ -23,7 +23,7 @@
             </li>
 
         }
-        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Member"))
+        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Student"))
         {
 
             <li class="nav-item">

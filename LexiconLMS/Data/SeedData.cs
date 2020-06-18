@@ -20,7 +20,7 @@ namespace LexiconLMS
                 var userManager = services.GetRequiredService<UserManager<User>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                var roleNames = new[] { "Admin", "Member" };
+                var roleNames = new[] { "Teacher", "Student" };
 
                 foreach (var name in roleNames)
                 {
@@ -45,7 +45,7 @@ namespace LexiconLMS
                 {
                     UserName = adminEmail,
                     Email = adminEmail,
-                    FirstName = "Admin",
+                    FirstName = "Teacher",
                     LastName = "qwdoihioudqwuqwuui",
                     //TimeOfRegistration = DateTime.Now
                 };
@@ -94,14 +94,14 @@ namespace LexiconLMS
                     //2
                     if (await userManager.IsInRoleAsync(auser2, role)) continue;
 
-                    addToRoleResult = await userManager.AddToRoleAsync(auser2, "Member"); //todo: sen när rollerna ändras med ahmads commit måste detta ändras
+                    addToRoleResult = await userManager.AddToRoleAsync(auser2, "Student"); //todo: sen när rollerna ändras med ahmads commit måste detta ändras
 
                     if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
 
                     //3
                     if (await userManager.IsInRoleAsync(auser3, role)) continue;
 
-                    addToRoleResult = await userManager.AddToRoleAsync(auser3, "Member");
+                    addToRoleResult = await userManager.AddToRoleAsync(auser3, "Student");
 
                     if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
                 }

@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LexiconLMS.Areas.Identity.Pages.Account
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Teacher")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;

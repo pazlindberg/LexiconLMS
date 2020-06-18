@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LexiconLMS.Controllers;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Runtime.CompilerServices;
 
 namespace LexiconLMS.Controllers
 {
@@ -37,7 +38,7 @@ namespace LexiconLMS.Controllers
 
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Index()
         {
 
@@ -50,7 +51,7 @@ namespace LexiconLMS.Controllers
 
         // GET: Courses/Details/5
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -73,7 +74,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Courses/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -105,7 +106,7 @@ namespace LexiconLMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Email,PhoneNumber,Role,CourseId")] UserViewModel viewUser)
         {
             
@@ -155,12 +156,30 @@ namespace LexiconLMS.Controllers
             ViewData["Role"] = new SelectList(_roleManager.Roles, "Name", "Name", roles[0]);
             return View(viewUser);
         }
+
+
+        //public string Getrole(User user)
+        //{
+        //    var x = _userManager.GetRolesAsync(user).ToString();
+        //    return x;
+        //}
         //Get: 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> AddCourse(int? id)
         {
-            var availableUsers = await _context.Users.Where(u => u.CourseId == null).ToListAsync();
-            var usedUsers = await _context.Users.Where(u => u.CourseId == id).ToListAsync();
+
+            var studentUser = await _userManager.GetUsersInRoleAsync("Student");
+            //var adminUsers = await _userManager.GetUsersInRoleAsync("Teacher");
+            var availableUsers = new List<User>();
+            
+            foreach (var item in studentUser)
+            {
+                if (item.CourseId == null) availableUsers.Add(item);
+            }
+           
+                                                 
+            
+            //var usedUsers = await _context.Users.Where(u => u.CourseId == id).ToListAsync();
             var course = await _context.Courses.FindAsync(id);
             if (id == null)
             {
@@ -176,7 +195,7 @@ namespace LexiconLMS.Controllers
         //Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> AddCourse(int? id1, [Bind("Id,Email")] User user)
         {
             var userToUpdate = await _userManager.FindByIdAsync(user.Id);
@@ -214,7 +233,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: users/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -224,6 +243,7 @@ namespace LexiconLMS.Controllers
 
             
             var user = await _userManager.FindByIdAsync(id);
+            
             if (user == null)
             {
                 return NotFound();
@@ -237,7 +257,7 @@ namespace LexiconLMS.Controllers
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
 
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
