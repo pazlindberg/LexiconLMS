@@ -14,6 +14,10 @@ using Microsoft.EntityFrameworkCore;
 using LexiconLMS.Controllers;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Runtime.CompilerServices;
+using LexiconLMS.Areas.Identity.Pages.Account;
+using Microsoft.Extensions.Logging;
+using System.Text;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace LexiconLMS.Controllers
 {
@@ -27,14 +31,16 @@ namespace LexiconLMS.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         RoleManager<IdentityRole> _roleManager;
+        private readonly ILogger<RegisterModel> _logger;
         private readonly IMapper _mapper;
 
-        public UserController(ApplicationDbContext context, UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
+        public UserController(ApplicationDbContext context, UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager, ILogger<RegisterModel> logger)
         {
             _context = context;
             _userManager = userManager;
             _mapper = mapper;
             _roleManager = roleManager;
+            _logger = logger;
 
         }
 
@@ -46,6 +52,52 @@ namespace LexiconLMS.Controllers
                 .Include(u => u.Course).ToListAsync();
 
             return View(users);
+        }
+
+        public IActionResult Create(int Id)
+        {
+            ViewBag.courseId = Id;
+            return View();
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> Create(int Id, [Bind("FirstName,LastName,Email")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var resultFound = await _userManager.FindByEmailAsync(user.Email);
+                if (resultFound ==null)
+                {
+                    var newUser = new User { FirstName = user.FirstName, LastName = user.LastName, UserName = user.Email, Email = user.Email };
+                    var result = await _userManager.CreateAsync(newUser, "a123");
+                    newUser.CourseId = Id;
+                    var addToRoleResult = await _userManager.AddToRoleAsync(newUser,"Student");
+                    if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User created a new account with password.");
+
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                        return LocalRedirect("~/User/Create/"+Id);
+                        
+                    }
+
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Student with same Email already Exist");
+                    return View();
+
+                }
+                
+            }
+            ViewBag.courseId = Id;
+            return View(user);
         }
 
 
