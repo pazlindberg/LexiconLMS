@@ -18,6 +18,7 @@ using LexiconLMS.Areas.Identity.Pages.Account;
 using Microsoft.Extensions.Logging;
 using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json.Schema;
 
 namespace LexiconLMS.Controllers
 {
@@ -30,7 +31,7 @@ namespace LexiconLMS.Controllers
         //}
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
-        RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IMapper _mapper;
 
@@ -44,14 +45,31 @@ namespace LexiconLMS.Controllers
 
         }
 
+
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Index()
         {
-
             var users = await _context.Users
-                .Include(u => u.Course).ToListAsync();
+                .Include(u => u.Course)
+                .OrderBy(u => u.Email).ToListAsync();
+            
 
             return View(users);
+        }
+
+        public async Task<IActionResult> Filter(string email)
+        {
+
+            var model = string.IsNullOrWhiteSpace(email) ?
+                   _context.Users :
+                    _context.Users
+                    .Include(u => u.Course)
+                    .Where(rn => rn.Email
+                                 .Contains(email));
+
+
+
+            return View(nameof(Index), await model.ToListAsync());
         }
 
         public IActionResult Create(int Id)
@@ -139,7 +157,8 @@ namespace LexiconLMS.Controllers
                 .FirstOrDefaultAsync(u => u.Id == id);
             var userToUpdate = await _userManager.FindByIdAsync(id);
             var roles = await _userManager.GetRolesAsync(userToUpdate);
-            userView.Role = roles[0];
+            userView.Role = roles.FirstOrDefault(r => r.Contains("Studen") || r.Contains("Teacher"));
+
 
             if (userView == null)
             {
@@ -173,7 +192,8 @@ namespace LexiconLMS.Controllers
             PropertyCopier.CopyTo(viewUser, userToUpdate);
             //remove old roll and add the new one 
             var roles = await _userManager.GetRolesAsync(userToUpdate);
-            await _userManager.RemoveFromRoleAsync(userToUpdate,roles[0]);
+            var updatedRole = roles.FirstOrDefault(r => r.Contains("Studen") || r.Contains("Teacher"));
+            await _userManager.RemoveFromRoleAsync(userToUpdate, updatedRole);
             var addToRoleResult = await _userManager.AddToRoleAsync(userToUpdate, viewUser.Role);
 
             // add course to user
