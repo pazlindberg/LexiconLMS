@@ -4,7 +4,7 @@
 @inject UserManager<User> UserManager
 @{ 
     var logInUser = await UserManager.GetUserAsync(User);
-    var _user = await UserManager.FindByEmailAsync(User.Identity.Name);
+    
 }
 
     <ul class="navbar-nav">
@@ -14,7 +14,7 @@
                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Användare</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @_user.FirstName!</a>
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @logInUser.FirstName!</a>
             </li>
             
             <li class="nav-item">
@@ -28,10 +28,10 @@
         {
 
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-route-id="@logInUser.CourseId" asp-controller="Courses" asp-action="Details">Mina Sidor</a>
+                <a class="nav-link text-dark" asp-route-id="@logInUser.Id" asp-controller="User" asp-action="MyPage">Mina Sidor</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @logInUser.FirstName!</a>
             </li>
 
             <li class="nav-item">

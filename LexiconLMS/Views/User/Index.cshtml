@@ -23,7 +23,7 @@
 <br />
 
 <div class="table-responsive">
-    <table class="table table-bordered table-condensed table-striped table-hover sortable">
+    <table class="table table-sm table-dark table-bordered table-condensed table-striped table-hover sortable">
         <thead>
             <tr class="bg-success">
                 <th data-defaultsign="AZ">
@@ -38,7 +38,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Course.Name)
                 </th>
-                <th></th>
+                
             </tr>
         </thead>
         <tbody>
@@ -69,6 +69,7 @@
 
                         <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Ändra</a>
                         <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">Detaljer</a>
+                        <a class="btn btn-dark" asp-action="MyPage" asp-route-id="@item.Id">Hans Sida</a>
                         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Radera</a>
                     </td>
                 </tr>

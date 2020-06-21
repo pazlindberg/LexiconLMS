@@ -57,6 +57,7 @@ namespace LexiconLMS.Controllers
             return View(users);
         }
 
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Filter(string email)
         {
 
@@ -72,6 +73,21 @@ namespace LexiconLMS.Controllers
             return View(nameof(Index), await model.ToListAsync());
         }
 
+        public async Task<IActionResult> MyPage(string id)
+        {
+            var users = _context.Users
+                        .Include(u => u.Course)
+                            .ThenInclude(c => c.Modules)
+                                .ThenInclude(m => m.Tasks)
+                        .Include(u => u.Course)
+                            .ThenInclude(c => c.Users);
+
+            var userView = await _mapper.ProjectTo<UserViewModel>(users)
+                            .FirstOrDefaultAsync(u => u.Id == id);
+            return View(userView);
+
+        }
+        [Authorize(Roles = "Teacher")]
         public IActionResult Create(int Id)
         {
             ViewBag.courseId = Id;
@@ -229,13 +245,6 @@ namespace LexiconLMS.Controllers
             return View(viewUser);
         }
 
-
-        //public string Getrole(User user)
-        //{
-        //    var x = _userManager.GetRolesAsync(user).ToString();
-        //    return x;
-        //}
-        //Get: 
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> AddCourse(int? id)
         {
