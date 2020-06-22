@@ -45,10 +45,6 @@ namespace LexiconLMS.Controllers
                 .Include(m => m.Course)
                 .Include(t => t.Tasks))
                 .FirstOrDefaultAsync(e => e.Id == id);
-            //var module = await _context.Modules
-            //    .Include(m => m.Course)
-            //    .Include(t => t.Tasks)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
 
             if (module == null)
             {
@@ -78,7 +74,7 @@ namespace LexiconLMS.Controllers
             {
                 _context.Add(module);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Redirect("/Courses/Details/" + module.CourseId);
             }
             ViewData["Courses"] = new SelectList(_context.Courses, "Id", "Name");
             return View(module);
@@ -107,7 +103,7 @@ namespace LexiconLMS.Controllers
             {
                 _context.Add(module);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Redirect("/Courses/Details/" + module.CourseId);
             }
             return View(module);
         }
@@ -122,7 +118,6 @@ namespace LexiconLMS.Controllers
                 return NotFound();
             }
 
-            //var module = await _context.Modules.FindAsync(id);
             var module = await mapper
                 .ProjectTo<ModuleEditViewModel>(_context.Modules
                 .Include(m => m.Course)
@@ -132,7 +127,6 @@ namespace LexiconLMS.Controllers
             {
                 return NotFound();
             }
-            //ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", module.CourseId);
             ViewData["Courses"] = new SelectList(_context.Courses, "Id", "Name");
 
             return View(module);
@@ -177,8 +171,7 @@ namespace LexiconLMS.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-                //return View(nameof(Edit), id);
+                return Redirect("/Modules/Details/" + id);
             }
             ViewData["Courses"] = new SelectList(_context.Courses, "Id", "Name");
             return View(model);
@@ -213,7 +206,7 @@ namespace LexiconLMS.Controllers
             var module = await _context.Modules.FindAsync(id);
             _context.Modules.Remove(module);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Redirect("/Courses/Details/" + module.CourseId);
         }
 
         private bool ModuleExists(int id)
