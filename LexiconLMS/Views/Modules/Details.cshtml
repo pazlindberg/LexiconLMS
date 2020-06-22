@@ -32,16 +32,17 @@
         </dt>
         <dd class="col-sm-10">
             <table class="table table-striped">
+                <tr>
+                    <th scope="col">Task</th>
+                    <th scope="col">Start time</th>
+                    <th scope="col">Stop time</th>
+                </tr>
                 @foreach (var task in Model.Tasks)
                 {
                 <tr>
-                    <td>
-                        @*@{var abc = "/Tasks/Details/" + task.Id;}
-                        * <a href="@abc"></a>*@             
-                          <a class="btn btn-info" asp-action="Details" asp-controller="Tasks" asp-route-id="@task.Id">@task.Name</a>
-                    </td>
-                    <td><u>Start:</u> @task.StartDate</td>
-                    <td><u>Stop:</u> @task.EndDate</td>
+                    <td><a class="btn btn-info" asp-action="Details" asp-controller="Tasks" asp-route-id="@task.Id">@task.Name</a></td>
+                    <td><span class="btn">@task.StartDate</span></td>
+                    <td><span class="btn">@task.EndDate</span></td>
                 </tr>
                 }
             </table>
