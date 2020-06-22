@@ -67,13 +67,13 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             [StringLength(20)]
             public string LastName { get; set; }
 
-            [Required]
+            //[Required]
             [Display(Name = "User Role")]
  
             public string Role { get; set; }
             
 
-            [Required]
+            //[Required]
             //[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -101,8 +101,8 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new User { FirstName = Input.FirstName,LastName= Input.LastName, UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Password);
-                var addToRoleResult = await _userManager.AddToRoleAsync(user, Input.Role);
+                var result = await _userManager.CreateAsync(user, "a123");
+                var addToRoleResult = await _userManager.AddToRoleAsync(user, "Teacher");
                 if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
                 if (result.Succeeded)
                 {
