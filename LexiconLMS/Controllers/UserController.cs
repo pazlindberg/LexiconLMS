@@ -14,6 +14,11 @@ using Microsoft.EntityFrameworkCore;
 using LexiconLMS.Controllers;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Runtime.CompilerServices;
+using LexiconLMS.Areas.Identity.Pages.Account;
+using Microsoft.Extensions.Logging;
+using System.Text;
+using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json.Schema;
 
 namespace LexiconLMS.Controllers
 {
@@ -26,26 +31,107 @@ namespace LexiconLMS.Controllers
         //}
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
-        RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ILogger<RegisterModel> _logger;
         private readonly IMapper _mapper;
 
-        public UserController(ApplicationDbContext context, UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
+        public UserController(ApplicationDbContext context, UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager, ILogger<RegisterModel> logger)
         {
             _context = context;
             _userManager = userManager;
             _mapper = mapper;
             _roleManager = roleManager;
+            _logger = logger;
 
         }
+
 
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Index()
         {
-
             var users = await _context.Users
-                .Include(u => u.Course).ToListAsync();
+                .Include(u => u.Course)
+                .OrderBy(u => u.Email).ToListAsync();
+            
 
             return View(users);
+        }
+
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> Filter(string email)
+        {
+
+            var model = string.IsNullOrWhiteSpace(email) ?
+                   _context.Users :
+                    _context.Users
+                    .Include(u => u.Course)
+                    .Where(rn => rn.Email
+                                 .Contains(email));
+
+
+
+            return View(nameof(Index), await model.ToListAsync());
+        }
+
+        public async Task<IActionResult> MyPage(string id)
+        {
+            var users = _context.Users
+                        .Include(u => u.Course)
+                            .ThenInclude(c => c.Modules)
+                                .ThenInclude(m => m.Tasks)
+                        .Include(u => u.Course)
+                            .ThenInclude(c => c.Users);
+
+            var userView = await _mapper.ProjectTo<UserViewModel>(users)
+                            .FirstOrDefaultAsync(u => u.Id == id);
+            return View(userView);
+
+        }
+        [Authorize(Roles = "Teacher")]
+        public IActionResult Create(int Id)
+        {
+            ViewBag.courseId = Id;
+            return View();
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> Create(int Id, [Bind("FirstName,LastName,Email")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var resultFound = await _userManager.FindByEmailAsync(user.Email);
+                if (resultFound ==null)
+                {
+                    var newUser = new User { FirstName = user.FirstName, LastName = user.LastName, UserName = user.Email, Email = user.Email };
+                    var result = await _userManager.CreateAsync(newUser, "a123");
+                    newUser.CourseId = Id;
+                    var addToRoleResult = await _userManager.AddToRoleAsync(newUser,"Student");
+                    if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User created a new account with password.");
+
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                        return LocalRedirect("~/User/Create/"+Id);
+                        
+                    }
+
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Student with same Email already Exist");
+                    return View();
+
+                }
+                
+            }
+            ViewBag.courseId = Id;
+            return View(user);
         }
 
 
@@ -87,7 +173,8 @@ namespace LexiconLMS.Controllers
                 .FirstOrDefaultAsync(u => u.Id == id);
             var userToUpdate = await _userManager.FindByIdAsync(id);
             var roles = await _userManager.GetRolesAsync(userToUpdate);
-            userView.Role = roles[0];
+            userView.Role = roles.FirstOrDefault(r => r.Contains("Studen") || r.Contains("Teacher"));
+
 
             if (userView == null)
             {
@@ -121,7 +208,8 @@ namespace LexiconLMS.Controllers
             PropertyCopier.CopyTo(viewUser, userToUpdate);
             //remove old roll and add the new one 
             var roles = await _userManager.GetRolesAsync(userToUpdate);
-            await _userManager.RemoveFromRoleAsync(userToUpdate,roles[0]);
+            var updatedRole = roles.FirstOrDefault(r => r.Contains("Student") || r.Contains("Teacher"));
+            await _userManager.RemoveFromRoleAsync(userToUpdate, updatedRole);
             var addToRoleResult = await _userManager.AddToRoleAsync(userToUpdate, viewUser.Role);
 
             // add course to user
@@ -157,13 +245,6 @@ namespace LexiconLMS.Controllers
             return View(viewUser);
         }
 
-
-        //public string Getrole(User user)
-        //{
-        //    var x = _userManager.GetRolesAsync(user).ToString();
-        //    return x;
-        //}
-        //Get: 
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> AddCourse(int? id)
         {
