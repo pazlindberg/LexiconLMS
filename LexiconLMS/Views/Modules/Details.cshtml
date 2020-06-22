@@ -31,11 +31,24 @@
             @Html.DisplayNameFor(model => model.Tasks)
         </dt>
         <dd class="col-sm-10">
-            @foreach (var task in Model.Tasks)
-            {
-                @Html.DisplayFor(task => task.Name)
-                <br />
-            }
+            <table>
+                @foreach (var task in Model.Tasks)
+                {
+                <tr>
+                    <td>
+                        <strong>@task.Name</strong>
+                    </td>
+                    <td>
+                        <u>Start: </u>
+                        @task.StartDate
+                    </td>
+                    <td>
+                        <u>Stop: </u>
+                        @task.StartDate
+                    </td>
+                </tr>
+                }
+            </table>
         </dd>
     </dl>
 </div>
