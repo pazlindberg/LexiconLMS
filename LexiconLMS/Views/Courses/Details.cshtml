@@ -40,19 +40,6 @@
                 </dd>
             }
         }
-        
-        @{ var theseModules=this.Model.Modules;
-
-            var taskList= new Dictionary<int, string>();
-
-            foreach (var temp in theseModules)
-            {
-                foreach(var thisTask in temp.Tasks)
-                {
-                    taskList.Add(thisTask.Id, thisTask.Name);
-                }
-            }
-           }
     </dl>
 </div>
 
