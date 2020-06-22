@@ -42,7 +42,8 @@ namespace LexiconLMS.Controllers
             }
             var module = await mapper
                 .ProjectTo<ModuleDetailViewModel>(_context.Modules
-                .Include(m => m.Course)
+                //.Include(m => m.Course).ThenInclude(x=>x.Modules)
+                
                 .Include(t => t.Tasks))
                 .FirstOrDefaultAsync(e => e.Id == id);
             //var module = await _context.Modules
