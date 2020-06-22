@@ -36,11 +36,12 @@
                 {
                 <tr>
                     <td>
-                        @{var abc = "/Tasks/Details/" + task.Id;}
-                        * <a href="@abc">@task.Name</a>                      
+                        @*@{var abc = "/Tasks/Details/" + task.Id;}
+                        * <a href="@abc"></a>*@             
+                          <a class="btn btn-info" asp-action="Details" asp-controller="Tasks" asp-route-id="@task.Id">@task.Name</a>
                     </td>
-                    <td><u>Start: </u> @task.StartDate</td>
-                    <td><u>Stop: </u> @task.EndDate</td>
+                    <td><u>Start:</u> @task.StartDate</td>
+                    <td><u>Stop:</u> @task.EndDate</td>
                 </tr>
                 }
             </table>
