@@ -36,7 +36,10 @@
                 {
                 <tr>
                     <td>
-                        <strong>@task.Name</strong>
+                        @{ 
+                            var abc = "/Tasks/Details/" + task.Id;
+                        } 
+                        * <a href="@abc">@task.Name</a>                      
                     </td>
                     <td>
                         <u>Start: </u>
