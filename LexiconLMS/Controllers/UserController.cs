@@ -58,15 +58,19 @@ namespace LexiconLMS.Controllers
         }
 
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> Filter(string email)
+        public async Task<IActionResult> Filter(string searchInput)
         {
 
-            var model = string.IsNullOrWhiteSpace(email) ?
-                   _context.Users :
-                    _context.Users
-                    .Include(u => u.Course)
-                    .Where(rn => rn.Email
-                                 .Contains(email));
+
+            var model = string.IsNullOrWhiteSpace(searchInput) ?
+                    _context.Users.Include(u => u.Course):
+                    _context.Users.Include(u => u.Course)
+                    .Where(u => u.Email.Contains(searchInput)
+                             || u.Course.Name.Contains(searchInput)
+                             || u.FirstName.Contains(searchInput)
+                             || u.LastName.Contains(searchInput)
+                             );
+            var users = await model.ToListAsync();
 
 
 
