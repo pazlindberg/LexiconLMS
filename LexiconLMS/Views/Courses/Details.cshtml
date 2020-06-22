@@ -89,12 +89,12 @@
     </p>
 </div>
 
-<div>
+@*<div>   obs: denna var redan implementerad men lämnar den här koden av ngt skäl jag inte kommer på
     <hr />
     <h3>Participants</h3>
     <ul>
 
-        <li>
+        
             @{
                 List<string> ul = new List<string>();
                 foreach(var u in Model.Users)
@@ -105,9 +105,9 @@
             }
             @foreach(var tt in ul)
             {
-                @tt;
+                <li>@tt;</li>
             }
-        </li>
+            
     </ul>
-</div>
+</div>*@
 
