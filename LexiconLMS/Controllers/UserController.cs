@@ -208,7 +208,7 @@ namespace LexiconLMS.Controllers
             PropertyCopier.CopyTo(viewUser, userToUpdate);
             //remove old roll and add the new one 
             var roles = await _userManager.GetRolesAsync(userToUpdate);
-            var updatedRole = roles.FirstOrDefault(r => r.Contains("Studen") || r.Contains("Teacher"));
+            var updatedRole = roles.FirstOrDefault(r => r.Contains("Student") || r.Contains("Teacher"));
             await _userManager.RemoveFromRoleAsync(userToUpdate, updatedRole);
             var addToRoleResult = await _userManager.AddToRoleAsync(userToUpdate, viewUser.Role);
 
