@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using LexiconLMS.Data;
 using LexiconLMS.Models;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using LexiconLMS.Models.ViewModel;
 
 namespace LexiconLMS.Controllers
 {
     public class ModulesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper mapper;
 
-        public ModulesController(ApplicationDbContext context)
+        public ModulesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
         // GET: Modules
@@ -36,11 +40,15 @@ namespace LexiconLMS.Controllers
             {
                 return NotFound();
             }
-
-            var module = await _context.Modules
+            var module = await mapper
+                .ProjectTo<ModuleDetailViewModel>(_context.Modules
                 .Include(m => m.Course)
-                .Include(t => t.Tasks)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(t => t.Tasks))
+                .FirstOrDefaultAsync(e => e.Id == id);
+            //var module = await _context.Modules
+            //    .Include(m => m.Course)
+            //    .Include(t => t.Tasks)
+            //    .FirstOrDefaultAsync(m => m.Id == id);
 
             if (module == null)
             {
@@ -114,7 +122,12 @@ namespace LexiconLMS.Controllers
                 return NotFound();
             }
 
-            var module = await _context.Modules.FindAsync(id);
+            //var module = await _context.Modules.FindAsync(id);
+            var module = await mapper
+                .ProjectTo<ModuleEditViewModel>(_context.Modules
+                .Include(m => m.Course)
+                .Include(t => t.Tasks))
+                .FirstOrDefaultAsync(e => e.Id == id);
             if (module == null)
             {
                 return NotFound();
@@ -131,8 +144,16 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate")] Module module)
         {
+            var model = await mapper
+                .ProjectTo<ModuleEditViewModel>(_context.Modules
+                .Include(m => m.Course)
+                .Include(t => t.Tasks))
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            module.CourseId = model.CourseId;
+
             if (id != module.Id)
             {
                 return NotFound();
@@ -157,9 +178,10 @@ namespace LexiconLMS.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
+                //return View(nameof(Edit), id);
             }
             ViewData["Courses"] = new SelectList(_context.Courses, "Id", "Name");
-            return View(module);
+            return View(model);
         }
 
         // GET: Modules/Delete/5
