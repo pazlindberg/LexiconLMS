@@ -31,7 +31,6 @@
             @Html.DisplayNameFor(model => model.Tasks)
         </dt>
         <dd class="col-sm-10">
-            
             <table class="table table-striped">
                 @foreach (var task in Model.Tasks)
                 {
@@ -41,7 +40,7 @@
                         * <a href="@abc">@task.Name</a>                      
                     </td>
                     <td><u>Start: </u> @task.StartDate</td>
-                    <td><u>Stop: </u> @task.StartDate</td>
+                    <td><u>Stop: </u> @task.EndDate</td>
                 </tr>
                 }
             </table>
