@@ -1,14 +1,16 @@
-﻿@model LexiconLMS.Models.Course
+﻿@model LexiconLMS.Models.Module
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Ny kurs</h1>
+<h1>Ny modul för kursen</h1>
+<h4>@ViewBag.coursename</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="CourseCreate" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -26,6 +28,14 @@
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input hidden asp-for="CourseId" value="@ViewBag.courseid" />
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Spara" class="btn btn-primary" />
             </div>
         </form>
@@ -33,9 +43,6 @@
 </div>
 
 <div>
-    <a class="btn btn-info" asp-action="Index">Tillbaka till kurser</a>
+    <a class="btn btn-success" asp-controller="Courses" asp-action="Details" asp-route-id="@ViewBag.courseid">Tillbaka till @ViewBag.coursename</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

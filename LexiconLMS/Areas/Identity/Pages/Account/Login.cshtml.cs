@@ -70,6 +70,8 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
+
+            var _singInUser = await _userManager.GetUserAsync(User);
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -86,11 +88,12 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
                     var user = await _userManager.FindByNameAsync(Input.Email);
 
-                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    if (await _userManager.IsInRoleAsync(user, "Teacher"))
                     {
                         return LocalRedirect("/Courses/Index");
                     }
-                    else return LocalRedirect("/Home/Index");
+                    else if (user.CourseId == null) return LocalRedirect("/Home/Index");
+                        else return LocalRedirect("/User/MyPage/" + user.Id);
                     //return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

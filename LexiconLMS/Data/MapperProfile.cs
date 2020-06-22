@@ -2,6 +2,8 @@
 using AutoMapper;
 using LexiconLMS.Models;
 using LexiconLMS.Models.ViewModel;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace LexiconLMS.Data
 {
     public class MapperProfile : Profile
     {
+        
+
         public MapperProfile()
         {
             CreateMap<Models.Task, TaskListViewModel>();
@@ -19,6 +23,10 @@ namespace LexiconLMS.Data
             CreateMap<Models.Task, TaskEditViewModel>();
             CreateMap<Models.Task, TaskDetailsViewModel>();
             CreateMap<Models.Task, TaskDeleteViewModel>();
+            CreateMap<User, UserViewModel>();
+            
         }
+
+       
     }
 }
