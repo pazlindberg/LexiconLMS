@@ -40,6 +40,19 @@
                 </dd>
             }
         }
+        
+        @{ var theseModules=this.Model.Modules;
+
+            var taskList= new Dictionary<int, string>();
+
+            foreach (var temp in theseModules)
+            {
+                foreach(var thisTask in temp.Tasks)
+                {
+                    taskList.Add(thisTask.Id, thisTask.Name);
+                }
+            }
+           }
     </dl>
 </div>
 
@@ -62,13 +75,24 @@
             {
                 string t = "/Modules/Details/" + x.Id;
                 <li><a href=@t>@x.Name</a></li>
-            }
-        }
-        else
-        {
-            <li><h4>Inga moduler</h4></li>
-        }
-    </ul>
+                <ul>
+                    @foreach (var thisTask in x.Tasks)
+                    {
+                        t = "/Tasks/Details/" + thisTask.Id; //todo: asp-action blbala spela roll
+
+                        <li>
+                            <a href=@t>@thisTask.Name</a>
+                        </li>
+
+                    }
+                </ul>
+                    }
+                    }
+                    else
+                    {
+                    <li><h4>Inga moduler</h4></li>
+                    }
+                </ul>
     <p>
         @if (User.IsInRole("Teacher"))
         {

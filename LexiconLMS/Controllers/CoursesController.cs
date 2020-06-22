@@ -39,7 +39,7 @@ namespace LexiconLMS.Models
 
             var course = await _context.Courses
                 .Include(c => c.Modules) //theninclude för att traversera activities osv
-                
+                .ThenInclude(t=>t.Tasks)
                 .Include(u => u.Users)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
