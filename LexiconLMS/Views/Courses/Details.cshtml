@@ -1,5 +1,6 @@
-﻿@model LexiconLMS.Models.Course
-
+﻿
+@model LexiconLMS.Models.Course
+@inject UserManager<User> UserManager
 @{
     ViewData["Title"] = "Details";
 }
@@ -26,7 +27,7 @@
             @Html.DisplayNameFor(model => model.StartDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate) 
+            @Html.DisplayFor(model => model.StartDate)
         </dd>
     </dl>
 </div>
@@ -61,5 +62,21 @@
     <p>
         <a class="btn btn-success" asp-action="Create" asp-controller="Modules">Ny modul</a>
     </p>
+</div>
+
+<div>
+    <hr />
+    <h3>Participants</h3>
+    <ul>
+
+        <li>
+            //ViewData["Userz"]
+            @{
+                
+
+
+            }
+        </li>
+    </ul>
 </div>
 

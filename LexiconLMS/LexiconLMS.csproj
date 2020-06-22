@@ -12,13 +12,6 @@
     <None Remove="TagHelper\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Migrations\20200611104427_TaskTypes.cs" />
-    <Compile Remove="Migrations\20200611104427_TaskTypes.Designer.cs" />
-    <Compile Remove="Migrations\20200611123045_ufoskalle.cs" />
-    <Compile Remove="Migrations\20200611123045_ufoskalle.Designer.cs" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
