@@ -5,18 +5,16 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Detaljer</h1>
-
+<h1>Kurs: @Model.Name</h1>
+<hr />
 <div>
-    <h4>Kurser</h4>
-    <hr />
     <dl class="row">
-        <dt class="col-sm-2">
+        @*<dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
-        </dd>
+        </dd>*@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -56,7 +54,7 @@
 
 <div>
     <hr />
-    <h3>Modules</h3>
+    <h3>Moduler</h3>
     <ul>
         @if ((this.Model.Modules != null) && (this.Model.Modules.Count > 0))
         {
@@ -66,11 +64,9 @@
                 <li><a href=@t>@x.Name</a></li>
             }
         }
-
-       
         else
         {
-            <li><h4>no modules</h4></li>
+            <li><h4>Inga moduler</h4></li>
         }
     </ul>
     <p>

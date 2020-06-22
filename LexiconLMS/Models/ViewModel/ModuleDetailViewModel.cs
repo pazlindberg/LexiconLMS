@@ -4,35 +4,32 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LexiconLMS.Models
+namespace LexiconLMS.Models.ViewModel
 {
-    public class Module
+    public class ModuleDetailViewModel
     {
         public int Id { get; set; }
 
-        [Required]
         [Display(Name = "Namn")]
         public string Name { get; set; }
 
-        [Required]
         [Display(Name = "Beskrivning")]
         public string Description { get; set; }
-        
-        [Required]
+
         [Display(Name = "Startdatum")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
-        
-        [Required]
+
         [Display(Name = "Slutdatum")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
 
         public int CourseId { get; set; }
 
 
+        [Display(Name = "Aktivitet")]
         public ICollection<Task> Tasks { get; set; }
         public Course Course { get; set; }
     }
