@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using LexiconLMS.Data;
 using LexiconLMS.Models;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using LexiconLMS.Models.ViewModel;
 
 namespace LexiconLMS.Controllers
 {
     public class ModulesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper mapper;
 
-        public ModulesController(ApplicationDbContext context)
+        public ModulesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
         // GET: Modules
@@ -36,11 +40,12 @@ namespace LexiconLMS.Controllers
             {
                 return NotFound();
             }
-
-            var module = await _context.Modules
-                .Include(m => m.Course)
-                .Include(t => t.Tasks)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var module = await mapper
+                .ProjectTo<ModuleDetailViewModel>(_context.Modules
+                //.Include(m => m.Course).ThenInclude(x=>x.Modules)
+                
+                .Include(t => t.Tasks))
+                .FirstOrDefaultAsync(e => e.Id == id);
 
             if (module == null)
             {
@@ -70,7 +75,7 @@ namespace LexiconLMS.Controllers
             {
                 _context.Add(module);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Redirect("/Courses/Details/" + module.CourseId);
             }
             ViewData["Courses"] = new SelectList(_context.Courses, "Id", "Name");
             return View(module);
@@ -86,6 +91,7 @@ namespace LexiconLMS.Controllers
             var courses = await _context.Courses.FindAsync(id);
             ViewData["coursename"] = courses.Name;
             ViewData["courseid"] = courses.Id;
+            ViewData["startdatum"] = courses.StartDate;
             
             return View();
         }
@@ -95,12 +101,31 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> CourseCreate([Bind("Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
+            var CourseList = await mapper
+                .ProjectTo<ModuleDetailViewModel>(_context.Modules
+                .Include(m => m.Course)
+                .Include(t => t.Tasks))
+                .FirstOrDefaultAsync(e => e.CourseId == module.CourseId);
+            ViewData["coursename"] = CourseList.Course.Name;
+            ViewData["courseid"] = CourseList.Course.Id;
+            ViewData["startdatum"] = CourseList.Course.StartDate;
+
+            if (module.StartDate < CourseList.Course.StartDate)
+            {
+                ModelState.AddModelError("StartDate", "Starttiden kan inte vara tidigare än kursens starttid: " + CourseList.Course.StartDate);
+            }
+            if (module.EndDate < module.StartDate)
+            {
+                ModelState.AddModelError("EndDate", "Sluttiden kan inte vara tidigare än starttiden");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(module);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Redirect("/Courses/Details/" + module.CourseId);
             }
+            // todo: Form clears if dates are missing or wrong order (end < start ...)
             return View(module);
         }
 
@@ -114,12 +139,15 @@ namespace LexiconLMS.Controllers
                 return NotFound();
             }
 
-            var module = await _context.Modules.FindAsync(id);
+            var module = await mapper
+                .ProjectTo<ModuleEditViewModel>(_context.Modules
+                .Include(m => m.Course)
+                .Include(t => t.Tasks))
+                .FirstOrDefaultAsync(e => e.Id == id);
             if (module == null)
             {
                 return NotFound();
             }
-            //ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", module.CourseId);
             ViewData["Courses"] = new SelectList(_context.Courses, "Id", "Name");
 
             return View(module);
@@ -131,8 +159,23 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate")] Module module)
         {
+            var model = await mapper
+                .ProjectTo<ModuleEditViewModel>(_context.Modules
+                .Include(m => m.Course)
+                .Include(t => t.Tasks))
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            module.CourseId = model.CourseId;
+            if (module.StartDate < model.Course.StartDate)
+            {
+                ModelState.AddModelError("StartDate", "Starttiden kan inte vara tidigare än kursens starttid: " + model.Course.StartDate);
+            }
+            if (module.StartDate > module.EndDate)
+            {
+                ModelState.AddModelError("EndDate", "Sluttiden kan inte vara tidigare än starttiden");
+            }
             if (id != module.Id)
             {
                 return NotFound();
@@ -156,10 +199,10 @@ namespace LexiconLMS.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Redirect("/Modules/Details/" + id);
             }
             ViewData["Courses"] = new SelectList(_context.Courses, "Id", "Name");
-            return View(module);
+            return View(model);
         }
 
         // GET: Modules/Delete/5
@@ -191,7 +234,7 @@ namespace LexiconLMS.Controllers
             var module = await _context.Modules.FindAsync(id);
             _context.Modules.Remove(module);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Redirect("/Courses/Details/" + module.CourseId);
         }
 
         private bool ModuleExists(int id)

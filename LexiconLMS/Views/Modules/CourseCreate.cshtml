@@ -1,11 +1,12 @@
 ﻿@model LexiconLMS.Models.Module
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Ny modul";
 }
 
 <h1>Ny modul för kursen</h1>
 <h4>@ViewBag.coursename</h4>
+<h4>Start: @ViewBag.startdatum</h4>
 
 <hr />
 <div class="row">
@@ -37,12 +38,8 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Spara" class="btn btn-primary" />
+                <a class="btn btn-success" asp-controller="Courses" asp-action="Details" asp-route-id="@ViewBag.courseid">Tillbaka till @ViewBag.coursename</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a class="btn btn-success" asp-controller="Courses" asp-action="Details" asp-route-id="@ViewBag.courseid">Tillbaka till @ViewBag.coursename</a>
-</div>
-

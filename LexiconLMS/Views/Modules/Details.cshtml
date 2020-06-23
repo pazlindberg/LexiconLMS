@@ -1,27 +1,15 @@
-﻿@model LexiconLMS.Models.Module
+﻿@model LexiconLMS.Models.ViewModel.ModuleDetailViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detaljer";
 }
 
-    <h1>Detaljer</h1>
-
+<h4>Kurs: @Model.Course.Name</h4>
+<h4>Start: @Model.Course.StartDate</h4>
+<h1>Modul: @Model.Name</h1>
+<hr />
 <div>
-    <h4>Module</h4>
-    <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -44,15 +32,26 @@
             @Html.DisplayNameFor(model => model.Tasks)
         </dt>
         <dd class="col-sm-10">
-            @foreach (var task in Model.Tasks)
-            {
-                @Html.DisplayFor(task => task.Name) <br>
-            }
+            <table class="table table-striped">
+                <tr>
+                    <th scope="col">Task</th>
+                    <th scope="col">Start time</th>
+                    <th scope="col">Stop time</th>
+                </tr>
+                @foreach (var task in Model.Tasks)
+                {
+                <tr>
+                    <td><a class="btn btn-info" asp-action="Details" asp-controller="Tasks" asp-route-id="@task.Id">@task.Name</a></td>
+                    <td><span class="btn">@task.StartDate</span></td>
+                    <td><span class="btn">@task.EndDate</span></td>
+                </tr>
+                }
+            </table>
         </dd>
-
     </dl>
 </div>
 <div>
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Ändra</a> 
-    <a class="btn btn-info" asp-action="Index">Tillbaka till Modul</a>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Ändra</a>
+    <a class="btn btn-warning" asp-action="Details" asp-controller="Courses" asp-route-id="@Model.Course.Id">Tillbaka till Kurs: @Model.Course.Name</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Radera</a>
 </div>

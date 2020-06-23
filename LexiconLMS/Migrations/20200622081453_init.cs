@@ -89,8 +89,8 @@ namespace LexiconLMS.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    FirstName = table.Column<string>(maxLength: 30, nullable: false),
-                    LastName = table.Column<string>(maxLength: 30, nullable: false),
+                    FirstName = table.Column<string>(maxLength: 30, nullable: true),
+                    LastName = table.Column<string>(maxLength: 30, nullable: true),
                     CourseId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -110,8 +110,8 @@ namespace LexiconLMS.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
                     CourseId = table.Column<int>(nullable: false)
@@ -246,9 +246,9 @@ namespace LexiconLMS.Migrations
                 columns: new[] { "Id", "Description", "Name", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "mer om snus", "Snuskurs", new DateTime(2020, 6, 12, 15, 43, 41, 388, DateTimeKind.Local).AddTicks(7027) },
-                    { 2, "mer om sär skri vning", "Sär skrivnings kurs", new DateTime(2020, 6, 12, 15, 43, 41, 391, DateTimeKind.Local).AddTicks(6755) },
-                    { 3, "fest", "Värdegrundskurs", new DateTime(2020, 6, 12, 15, 43, 41, 391, DateTimeKind.Local).AddTicks(6790) }
+                    { 1, "mer om snus", "Snuskurs", new DateTime(2020, 6, 22, 10, 14, 53, 195, DateTimeKind.Local).AddTicks(1154) },
+                    { 2, "mer om sär skri vning", "Sär skrivnings kurs", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(2207) },
+                    { 3, "fest", "Värdegrundskurs", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(2274) }
                 });
 
             migrationBuilder.InsertData(
@@ -264,32 +264,32 @@ namespace LexiconLMS.Migrations
             migrationBuilder.InsertData(
                 table: "Modules",
                 columns: new[] { "Id", "CourseId", "Description", "EndDate", "Name", "StartDate" },
-                values: new object[] { 1, 1, "Module1description", new DateTime(2020, 6, 12, 15, 43, 41, 391, DateTimeKind.Local).AddTicks(9873), "SNUS A", new DateTime(2020, 6, 12, 15, 43, 41, 391, DateTimeKind.Local).AddTicks(9418) });
+                values: new object[] { 1, 1, "Module1description", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(7292), "SNUS A", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(6424) });
 
             migrationBuilder.InsertData(
                 table: "Modules",
                 columns: new[] { "Id", "CourseId", "Description", "EndDate", "Name", "StartDate" },
-                values: new object[] { 2, 1, "Module2description", new DateTime(2020, 6, 12, 15, 43, 41, 392, DateTimeKind.Local).AddTicks(369), "SNUS B", new DateTime(2020, 6, 12, 15, 43, 41, 392, DateTimeKind.Local).AddTicks(352) });
+                values: new object[] { 2, 1, "Module2description", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8256), "SNUS B", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8222) });
 
             migrationBuilder.InsertData(
                 table: "Modules",
                 columns: new[] { "Id", "CourseId", "Description", "EndDate", "Name", "StartDate" },
-                values: new object[] { 3, 3, "Module3description", new DateTime(2020, 6, 12, 15, 43, 41, 392, DateTimeKind.Local).AddTicks(382), "Värdegrund A", new DateTime(2020, 6, 12, 15, 43, 41, 392, DateTimeKind.Local).AddTicks(379) });
+                values: new object[] { 3, 3, "Module3description", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8280), "Värdegrund A", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8275) });
 
             migrationBuilder.InsertData(
                 table: "Tasks",
                 columns: new[] { "Id", "EndDate", "ModuleId", "Name", "StartDate", "TaskTypeId" },
-                values: new object[] { 1, new DateTime(2020, 6, 12, 15, 43, 41, 392, DateTimeKind.Local).AddTicks(2872), 1, "TASK 1 (snusa)", new DateTime(2020, 6, 12, 15, 43, 41, 392, DateTimeKind.Local).AddTicks(2438), 1 });
+                values: new object[] { 1, new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3030), 1, "TASK 1 (snusa)", new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(2207), 1 });
 
             migrationBuilder.InsertData(
                 table: "Tasks",
                 columns: new[] { "Id", "EndDate", "ModuleId", "Name", "StartDate", "TaskTypeId" },
-                values: new object[] { 2, new DateTime(2020, 6, 12, 15, 43, 41, 392, DateTimeKind.Local).AddTicks(3358), 2, "TASK 2 (snusa mer)", new DateTime(2020, 6, 12, 15, 43, 41, 392, DateTimeKind.Local).AddTicks(3341), 1 });
+                values: new object[] { 2, new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3941), 2, "TASK 2 (snusa mer)", new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3908), 1 });
 
             migrationBuilder.InsertData(
                 table: "Tasks",
                 columns: new[] { "Id", "EndDate", "ModuleId", "Name", "StartDate", "TaskTypeId" },
-                values: new object[] { 3, new DateTime(2020, 6, 12, 15, 43, 41, 392, DateTimeKind.Local).AddTicks(3369), 2, "TASK 3 (snusa ännu mer)", new DateTime(2020, 6, 12, 15, 43, 41, 392, DateTimeKind.Local).AddTicks(3366), 1 });
+                values: new object[] { 3, new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3964), 2, "TASK 3 (snusa ännu mer)", new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3958), 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
