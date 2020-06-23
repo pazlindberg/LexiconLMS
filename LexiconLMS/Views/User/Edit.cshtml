@@ -3,6 +3,9 @@
     ViewData["Title"] = "Redigera användare";
     
 }
+
+
+
 <h1>Redigera Användare</h1>
 <hr />
 <div class="row">
@@ -40,14 +43,10 @@
 
             <div class="form-group">
                 <input type="submit" value="Spara" class="btn btn-primary" />
+                <button class="btn btn-info" onclick="goBack()">Tillbaka</button>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    @*<a class="btn btn-success" asp-action="Index">Tillbaka till Användare</a>*@
-    <button class="btn btn-success" onclick="goBack()"Tillbaka...</button>
 </div>
 
 @section Scripts {
