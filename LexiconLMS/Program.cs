@@ -1,10 +1,3 @@
-/*23/6 anderz
- * todo: kursdetaljer->skapa ny elev->validering
- * todo: knapp för att lägga till aktivitet
- * todo: användare->detaljer->ändra (för lärare)
- * todo: sök användare med tomt fält > sökresultatet suddar kursnamn (obs: bara vid tom söksträng)
-
-*/
 using System;
 using System.Collections.Generic;
 using System.Linq;
