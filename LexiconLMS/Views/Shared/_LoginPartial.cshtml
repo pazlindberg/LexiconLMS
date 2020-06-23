@@ -13,10 +13,13 @@
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Användare</a>
             </li>
-            <li class="nav-item">
+            @if (logInUser.Id != null)
+            {
+                <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @logInUser.FirstName!</a>
-            </li>
-            
+                </li>
+            }
+
             <li class="nav-item">
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
