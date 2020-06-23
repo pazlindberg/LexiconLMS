@@ -90,6 +90,7 @@ namespace LexiconLMS.Controllers
             var courses = await _context.Courses.FindAsync(id);
             ViewData["coursename"] = courses.Name;
             ViewData["courseid"] = courses.Id;
+            ViewData["startdatum"] = courses.StartDate;
             
             return View();
         }
@@ -99,12 +100,31 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> CourseCreate([Bind("Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
+            var CourseList = await mapper
+                .ProjectTo<ModuleDetailViewModel>(_context.Modules
+                .Include(m => m.Course)
+                .Include(t => t.Tasks))
+                .FirstOrDefaultAsync(e => e.CourseId == module.CourseId);
+            ViewData["coursename"] = CourseList.Course.Name;
+            ViewData["courseid"] = CourseList.Course.Id;
+            ViewData["startdatum"] = CourseList.Course.StartDate;
+
+            if (module.StartDate < CourseList.Course.StartDate)
+            {
+                ModelState.AddModelError("StartDate", "Starttiden kan inte vara tidigare än kursens starttid: " + CourseList.Course.StartDate);
+            }
+            if (module.EndDate < module.StartDate)
+            {
+                ModelState.AddModelError("EndDate", "Sluttiden kan inte vara tidigare än starttiden");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(module);
                 await _context.SaveChangesAsync();
                 return Redirect("/Courses/Details/" + module.CourseId);
             }
+            // todo: Form clears if dates are missing or wrong order (end < start ...)
             return View(module);
         }
 
@@ -147,7 +167,14 @@ namespace LexiconLMS.Controllers
                 .FirstOrDefaultAsync(e => e.Id == id);
 
             module.CourseId = model.CourseId;
-
+            if (module.StartDate < model.Course.StartDate)
+            {
+                ModelState.AddModelError("StartDate", "Starttiden kan inte vara tidigare än kursens starttid: " + model.Course.StartDate);
+            }
+            if (module.StartDate > module.EndDate)
+            {
+                ModelState.AddModelError("EndDate", "Sluttiden kan inte vara tidigare än starttiden");
+            }
             if (id != module.Id)
             {
                 return NotFound();
