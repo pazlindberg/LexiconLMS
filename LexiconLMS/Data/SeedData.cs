@@ -1,6 +1,7 @@
 ﻿using LexiconLMS.Data;
 using LexiconLMS.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -44,23 +45,29 @@ namespace LexiconLMS
 
                 //{ "Username", "Email", "FirstName", LastName" }
                 var userArray = new[,] {
-                    { adminEmail, adminEmail, "Admin", "Adminsson"},
-                    { "anders@microsoft.com","anders@microsoft.com", "Anders", "Nilsson" },
-                    { "eva.bjork@sr.se", "eva.bjork@sr.se", "Eva", "Björk", },
-                    { "gunnar.munk@tele2.se", "gunnar.munk@tele2.se", "Gunnar", "Munk" },
-                    { "jan@janne.org", "jan@janne.org", "Jan", "Ivarsson" },
-                    { "hubert@murmur.com", "hubert@murmur.com", "Hubert", "Mur" }
+                    { adminEmail, adminEmail, "Admin", "Adminsson", null},
+                    { "anders@microsoft.com","anders@microsoft.com", "Anders", "Nilsson", "1" },
+                    { "eva.bjork@sr.se", "eva.bjork@sr.se", "Eva", "Björk", "2" },
+                    { "gunnar.munk@tele2.se", "gunnar.munk@tele2.se", "Gunnar", "Munk", "2" },
+                    { "jan@janne.org", "jan@janne.org", "Jan", "Ivarsson", "1" },
+                    { "hubert@murmur.com", "hubert@murmur.com", "Hubert", "Mur", "3" }
                 };
 
                 for (int i = 0; i < userArray.GetLength(0); i++)
                 {
+                    int? courseid = null;
+                    if (int.TryParse(userArray[i,4], out int tmp))
+                    {
+                        courseid = tmp;
+                    }
                     var users = new User
                     {
                         UserName = userArray[i, 0],
                         Email = userArray[i, 1],
                         FirstName = userArray[i, 2],
                         LastName = userArray[i, 3],
-                    };
+                        CourseId = courseid
+                };
                     var addUserResulttst = await userManager.CreateAsync(users, "a123");
                     if (!addUserResulttst.Succeeded) throw new Exception(string.Join("\n", addUserResulttst.Errors));
                     var auser = await userManager.FindByNameAsync(users.Email);

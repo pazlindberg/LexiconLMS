@@ -61,6 +61,7 @@
 
 <div>
     <a asp-action="Index">Tillbaka till aktivitetslistan</a>
+    <a class="btn btn-info" asp-action="Details" asp-controller="Tasks" asp-route-id="@Model.Id">Tillbaka till Aktivitet: @Model.Name</a>
 </div>
 
 @section Scripts {

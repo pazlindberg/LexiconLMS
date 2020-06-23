@@ -8,129 +8,207 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LexiconLMS.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User,IdentityRole,string>
+    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-               var course = new Course
-               {
-                   Id = 1,
-                   Name = "Snuskurs",
-                   Description = "mer om snus",
-                   StartDate = DateTime.Now
-               };
-            
-                var course2 = new Course
+            modelBuilder.Entity<Course>().HasData(
+                new Course
+                {
+                    Id = 1,
+                    Name = "Office 365",
+                    Description = "Grundkurs i Office 365",
+                    StartDate = DateTime.Now
+                },
+                new Course
                 {
                     Id = 2,
-                    Name = "Sär skrivnings kurs",
-                    Description = "mer om sär skri vning",
+                    Name = "Databaser 2",
+                    Description = "Påbyggnadskurs i SQL",
                     StartDate = DateTime.Now
-                    
-                };
-                var course3 = new Course
+                },
+                new Course
                 {
                     Id = 3,
-                    Name = "Värdegrundskurs",
-                    Description = "fest",
+                    Name = "Test",
+                    Description = "Hur man skriver tester",
                     StartDate = DateTime.Now
-                };
-
-               var module = new Module
-               {
-                   Id = 1,
-                   Name = "SNUS A",
-                   Description = "Module1description",
-                   CourseId=1,
-                   StartDate = DateTime.Now,
-                   EndDate = DateTime.Now
-                   
-               };
-                var module2 = new Module
+                },
+                new Course
                 {
-                    Id = 2,
-                    Name = "SNUS B",
-                    Description = "Module2description",
+                    Id = 4,
+                    Name = "Programmering",
+                    Description = "C#",
+                    StartDate = DateTime.Now
+                }
+            );
+
+            modelBuilder.Entity<Module>().HasData(
+                new Module
+                {
+                    Id = 1,
+                    Name = "Excel",
+                    Description = "Skriva formler i Excel",
                     CourseId = 1,
                     StartDate = DateTime.Now,
                     EndDate = DateTime.Now
-
-                };
-                var module3 = new Module
+                },
+                new Module
+                {
+                    Id = 2,
+                    Name = "Word",
+                    Description = "Skriva dokument",
+                    CourseId = 1,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                },
+                new Module
                 {
                     Id = 3,
-                    Name = "Värdegrund A",
-                    Description = "Module3description",
+                    Name = "Skapa databaser",
+                    Description = "Skapa en enkel databas",
+                    CourseId = 2,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                },
+                new Module
+                {
+                    Id = 4,
+                    Name = "Söka i databaser",
+                    Description = "Hur söker man i en databas?",
+                    CourseId = 2,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                },
+                new Module
+                {
+                    Id = 5,
+                    Name = "Arbeta med flera databaser",
+                    Description = "Hur man ska arbeta med mer än en databas",
+                    CourseId = 2,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                },
+                new Module
+                {
+                    Id = 6,
+                    Name = "Automatisering",
+                    Description = "Automatisering av tester",
                     CourseId = 3,
                     StartDate = DateTime.Now,
                     EndDate = DateTime.Now
-                };
+                },
+                new Module
+                {
+                    Id = 7,
+                    Name = "Objekt",
+                    Description = "Vad är objekt?",
+                    CourseId = 4,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                }
+            );
 
-               var task = new Models.Task
-               {
-                   Id = 1,
-                   Name = "TASK 1 (snusa)",
-                   ModuleId=1,
-                   TaskTypeId=1,
-                   StartDate = DateTime.Now,
-                   EndDate = DateTime.Now
-               };
-            var task2 = new Models.Task
-            {
-                Id = 2,
-                Name = "TASK 2 (snusa mer)",
-                ModuleId = 2,
-                TaskTypeId = 1,
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now
-            };
-            var task3 = new Models.Task
-            {
-                Id = 3,
-                Name = "TASK 3 (snusa ännu mer)",
-                ModuleId = 2,
-                TaskTypeId = 1,
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now
-            };
+            modelBuilder.Entity<TaskType>().HasData(
+                new TaskType
+                {
+                    Id = 1,
+                    Name = "Föreläsning"
+                },
+                new TaskType
+                {
+                    Id = 2,
+                    Name = "E-Learning"
+                },
+                new TaskType
+                {
+                    Id = 3,
+                    Name = "Inlämningsuppgift"
+                },
+                new TaskType
+                {
+                    Id = 4,
+                    Name = "Prov"
+                },
+                new TaskType
+                {
+                    Id = 5,
+                    Name = "Certifiering"
+                }
+            );
 
-            var tasktype = new TaskType
-               {
-                   Id = 1,
-                   Name = "Tasktype1"
-               };
-            var tasktype2 = new TaskType
-            {
-                Id = 2,
-                Name = "Tasktype2"
-            };
-            var tasktype3 = new TaskType
-            {
-                Id = 3,
-                Name = "Tasktype3"
-            };
-
-            modelBuilder.Entity<Course>().HasData(course);
-            modelBuilder.Entity<Course>().HasData(course2);
-            modelBuilder.Entity<Course>().HasData(course3);
-            modelBuilder.Entity<Module>().HasData(module);
-            modelBuilder.Entity<Module>().HasData(module2);
-            modelBuilder.Entity<Module>().HasData(module3);
-            modelBuilder.Entity<TaskType>().HasData(tasktype);
-            modelBuilder.Entity<TaskType>().HasData(tasktype2);
-            modelBuilder.Entity<TaskType>().HasData(tasktype3);
-            modelBuilder.Entity<Models.Task>().HasData(task);
-            modelBuilder.Entity<Models.Task>().HasData(task2);
-            modelBuilder.Entity<Models.Task>().HasData(task3);
-
-
+            modelBuilder.Entity<Models.Task>().HasData(
+                new Models.Task
+                {
+                    Id = 1,
+                    Name = "Enkla formler(addition, subtraktion...)",
+                    ModuleId = 1,
+                    TaskTypeId = 1,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                },
+                new Models.Task
+                {
+                    Id = 2,
+                    Name = "Hur man använder ett tangentbord för att få tecken på skärmen",
+                    ModuleId = 2,
+                    TaskTypeId = 2,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                },
+                new Models.Task
+                {
+                    Id = 3,
+                    Name = "Skapa en databas för telefonnummer",
+                    ModuleId = 3,
+                    TaskTypeId = 3,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                },
+                new Models.Task
+                {
+                    Id = 4,
+                    Name = "Basic queries",
+                    ModuleId = 4,
+                    TaskTypeId = 2,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                },
+                new Models.Task
+                {
+                    Id = 5,
+                    Name = "Telefonnummer som är kopplade till en användare",
+                    ModuleId = 5,
+                    TaskTypeId = 4,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                },
+                new Models.Task
+                {
+                    Id = 6,
+                    Name = "Skriva ett test",
+                    ModuleId = 6,
+                    TaskTypeId = 1,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                },
+                new Models.Task
+                {
+                    Id = 7,
+                    Name = "Objektorienterad programmering",
+                    ModuleId = 7,
+                    TaskTypeId = 5,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now
+                }
+            );
         }
 
         public DbSet<Course> Courses { get; set; }
