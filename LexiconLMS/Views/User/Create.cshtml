@@ -1,5 +1,5 @@
 ﻿
-@model LexiconLMS.Models.User
+@model LexiconLMS.Models.ViewModel.UserViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -37,7 +37,8 @@
 </div>
 
 <div>
-    <a class="btn btn-success" asp-controller="Courses" asp-action="Details" asp-route-id="@ViewBag.courseId">Tillbaka till @ViewBag.coursename</a>
+    @*<a class="btn btn-success" asp-controller="Courses" asp-action="Details" asp-route-id="@ViewBag.courseId">Tillbaka till @ViewBag.coursename</a>*@
+    <button class="btn btn-success" onclick="goBack()">Go Back</button>
 </div>
 
 

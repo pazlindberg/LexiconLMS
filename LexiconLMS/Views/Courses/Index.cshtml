@@ -10,6 +10,15 @@
 
 <h1>Kursöversikt</h1>
 
+<form asp-action="Filter">
+    <div class="input-group m-3">
+        <input type="text" name="Name" class="form-control" placeholder="Search by Name Or Description" />
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search">&emsp;Search</i></button>
+        </div>
+    </div>
+</form>
+
 <p>
     <a class="nav-link text-dark" asp-action="Create">Ny kurs</a>
 </p>

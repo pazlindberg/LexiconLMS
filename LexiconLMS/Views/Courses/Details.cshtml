@@ -35,9 +35,7 @@
         {
             @foreach (var x in this.Model.Users) //todo: implementera snabbvy (tex hovring) om tid finnes
             {
-                <dd class="col-sm-10">
-                    @x.Email
-                </dd>
+                <dd class="col-sm-10"><a class="btn btn-outline-info" asp-action="Details" asp-controller="User" asp-route-id="@x.Id">@x.Email</a></dd>
             }
         }
     </dl>
@@ -54,7 +52,7 @@
 
 <div>
     <hr />
-    <h3>Moduler</h3>
+    <h3>Moduler & aktiviteter</h3>
     <ul>
         @if ((this.Model.Modules != null) && (this.Model.Modules.Count > 0))
         {
@@ -62,13 +60,24 @@
             {
                 string t = "/Modules/Details/" + x.Id;
                 <li><a href=@t>@x.Name</a></li>
-            }
-        }
-        else
-        {
-            <li><h4>Inga moduler</h4></li>
-        }
-    </ul>
+                <ul>
+                    @foreach (var thisTask in x.Tasks)
+                    {
+                        t = "/Tasks/Details/" + thisTask.Id; //todo: asp-action blbala spela roll
+
+                        <li>
+                            <a href=@t>@thisTask.Name</a>
+                        </li>
+                    }
+                </ul>
+         
+                    }
+                    }
+                    else
+                    {
+                    <li><h4>Inga moduler</h4></li>
+                    }
+                </ul>
     <p>
         @if (User.IsInRole("Teacher"))
         {
@@ -78,19 +87,25 @@
     </p>
 </div>
 
-<div>
+@*<div>   obs: denna var redan implementerad men lämnar den här koden av ngt skäl jag inte kommer på
     <hr />
     <h3>Participants</h3>
     <ul>
 
-        <li>
-            //ViewData["Userz"]
+        
             @{
-                
-
+                List<string> ul = new List<string>();
+                foreach(var u in Model.Users)
+                {
+                    ul.Add(u.FullName);
+                }
 
             }
-        </li>
+            @foreach(var tt in ul)
+            {
+                <li>@tt;</li>
+            }
+            
     </ul>
-</div>
+</div>*@
 

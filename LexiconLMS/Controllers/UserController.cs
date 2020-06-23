@@ -52,25 +52,29 @@ namespace LexiconLMS.Controllers
             var users = await _context.Users
                 .Include(u => u.Course)
                 .OrderBy(u => u.Email).ToListAsync();
+            ViewBag.hide = "OFF";
             
 
             return View(users);
         }
 
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> Filter(string email)
+        public async Task<IActionResult> Filter(string searchInput)
         {
-
-            var model = string.IsNullOrWhiteSpace(email) ?
-                   _context.Users :
-                    _context.Users
-                    .Include(u => u.Course)
-                    .Where(rn => rn.Email
-                                 .Contains(email));
+            //retrive users from database
+            var model = _context.Users.Include(u => u.Course).AsQueryable();
 
 
-
-            return View(nameof(Index), await model.ToListAsync());
+            model = string.IsNullOrWhiteSpace(searchInput) ?
+                   model :
+                   model
+                   .Where(u => u.Email.ToLower().Contains(searchInput.ToLower())
+                            || u.Course.Name.ToLower().Contains(searchInput.ToLower())
+                            || u.FirstName.ToLower().Contains(searchInput.ToLower())
+                            || u.LastName.ToLower().Contains(searchInput.ToLower())
+                            );
+            var users = await model.ToListAsync();
+            return View(nameof(Index), users);
         }
 
         public async Task<IActionResult> MyPage(string id)
@@ -98,7 +102,7 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> Create(int Id, [Bind("FirstName,LastName,Email")] User user)
+        public async Task<IActionResult> Create(int Id, /*[Bind("FirstName,LastName,Email")] */UserViewModel user)
         {
             if (ModelState.IsValid)
             {
@@ -194,7 +198,7 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Email,PhoneNumber,Role,CourseId")] UserViewModel viewUser)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Email,PhoneNumber,CourseId")] UserViewModel viewUser)
         {
             
             if (id == null)
@@ -206,17 +210,25 @@ namespace LexiconLMS.Controllers
             var userToUpdate = await _userManager.FindByIdAsync(id);
             //copy properties from UserViewModel to user (Des, Srce)
             PropertyCopier.CopyTo(viewUser, userToUpdate);
-            //remove old roll and add the new one 
-            var roles = await _userManager.GetRolesAsync(userToUpdate);
-            var updatedRole = roles.FirstOrDefault(r => r.Contains("Student") || r.Contains("Teacher"));
-            await _userManager.RemoveFromRoleAsync(userToUpdate, updatedRole);
-            var addToRoleResult = await _userManager.AddToRoleAsync(userToUpdate, viewUser.Role);
+            //remove old role and add the new one 
+            //var roles = await _userManager.GetRolesAsync(userToUpdate);
+            //var oldRole = roles.FirstOrDefault(r => r.Contains("Student") || r.Contains("Teacher"));
+            //string newRole = "";
+            //if (oldRole != viewUser.Role)
+            //{
+            //    if (viewUser.Role == "Student") newRole = "Student";
+            //    else newRole = "Teacher";
+            //    var removeRoleResult = await _userManager.RemoveFromRoleAsync(userToUpdate, oldRole);
+            //    if (!removeRoleResult.Succeeded) throw new Exception(string.Join("\n", removeRoleResult.Errors));
+            //    var addToRoleResult = await _userManager.AddToRoleAsync(userToUpdate, newRole);
+            //    if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
 
+            //}
             // add course to user
             var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == viewUser.CourseId);
             userToUpdate.Course = course;
             //check if the role is added or not 
-            if (!addToRoleResult.Succeeded) throw new Exception(string.Join("\n", addToRoleResult.Errors));
+            
             if (ModelState.IsValid)
             {
                 try
@@ -241,7 +253,7 @@ namespace LexiconLMS.Controllers
 
             CourseDropDownList(viewUser.CourseId);
             
-            ViewData["Role"] = new SelectList(_roleManager.Roles, "Name", "Name", roles[0]);
+            //ViewData["Role"] = new SelectList(_roleManager.Roles, "Name", "Name", roles[0]);
             return View(viewUser);
         }
 
@@ -361,6 +373,8 @@ namespace LexiconLMS.Controllers
             
             ViewData["courseId"] = new SelectList(courseQuery.AsNoTracking(), "Id", "Name", selectedCourse);
         }
+
+
         
     }
 }

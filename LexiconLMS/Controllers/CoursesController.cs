@@ -26,6 +26,18 @@ namespace LexiconLMS.Models
             return View(await _context.Courses.ToListAsync());
         }
 
+
+        public async Task<IActionResult> Filter(string name)
+        {
+
+            var model = string.IsNullOrWhiteSpace(name) ?
+                   _context.Courses :
+                    _context.Courses
+                    .Where(c => c.Name
+                                 .Contains(name) || c.Description.Contains(name));
+
+            return View(nameof(Index), await model.ToListAsync());
+        }
         // GET: Courses/Details/5
 
         [Authorize(Roles = "Student,Teacher")]
@@ -39,7 +51,7 @@ namespace LexiconLMS.Models
 
             var course = await _context.Courses
                 .Include(c => c.Modules) //theninclude för att traversera activities osv
-                
+                .ThenInclude(t=>t.Tasks)
                 .Include(u => u.Users)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);

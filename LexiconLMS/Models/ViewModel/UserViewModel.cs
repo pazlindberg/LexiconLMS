@@ -25,7 +25,7 @@ namespace LexiconLMS.Models.ViewModel
 
         public string FullName { get { return (($"{FirstName} {LastName}")); } }
 
-        [Required(ErrorMessage = "You must provide a phone number")]
+        
         [Display(Name = "Phone Number")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
@@ -35,6 +35,8 @@ namespace LexiconLMS.Models.ViewModel
         [DataType(DataType.EmailAddress)]
         [EmailAddress(ErrorMessage = "The Email field is not a valid e-mail address.")]
         public string Email { get; set; }
+
+        public string UserName { get; set; }
         public string Role { get; set; }
 
         public int? CourseId { get; set; }
