@@ -1,5 +1,6 @@
-﻿@model LexiconLMS.Models.Course
-
+﻿
+@model LexiconLMS.Models.Course
+@inject UserManager<User> UserManager
 @{
     ViewData["Title"] = "Details";
 }
@@ -46,7 +47,7 @@
     @if (User.IsInRole("Teacher"))
     {
         <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Ändra &quot;@Html.DisplayFor(model => model.Name)&quot;</a><br />
-        <a class="btn btn-success" asp-action="AddCourse" asp-controller="User" asp-route-id="@Model.Id">Lägg till elever till @Html.DisplayFor(model => model.Name)</a><br />
+        <a class="btn btn-success" asp-action="Create" asp-controller="User" asp-route-Id="@Model.Id">Lägg till elever till @Html.DisplayFor(model => model.Name)</a><br />
     }
     <a class="btn btn-info" asp-action="Index">Tillbaka till kurser</a>
 </div>
@@ -61,13 +62,24 @@
             {
                 string t = "/Modules/Details/" + x.Id;
                 <li><a href=@t>@x.Name</a></li>
-            }
-        }
-        else
-        {
-            <li><h4>Inga moduler</h4></li>
-        }
-    </ul>
+                <ul>
+                    @foreach (var thisTask in x.Tasks)
+                    {
+                        t = "/Tasks/Details/" + thisTask.Id; //todo: asp-action blbala spela roll
+
+                        <li>
+                            <a href=@t>@thisTask.Name</a>
+                        </li>
+                    }
+                </ul>
+         
+                    }
+                    }
+                    else
+                    {
+                    <li><h4>Inga moduler</h4></li>
+                    }
+                </ul>
     <p>
         @if (User.IsInRole("Teacher"))
         {
@@ -76,4 +88,26 @@
         }
     </p>
 </div>
+
+@*<div>   obs: denna var redan implementerad men lämnar den här koden av ngt skäl jag inte kommer på
+    <hr />
+    <h3>Participants</h3>
+    <ul>
+
+        
+            @{
+                List<string> ul = new List<string>();
+                foreach(var u in Model.Users)
+                {
+                    ul.Add(u.FullName);
+                }
+
+            }
+            @foreach(var tt in ul)
+            {
+                <li>@tt;</li>
+            }
+            
+    </ul>
+</div>*@
 

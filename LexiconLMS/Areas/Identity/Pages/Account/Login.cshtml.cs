@@ -93,7 +93,7 @@ namespace LexiconLMS.Areas.Identity.Pages.Account
                         return LocalRedirect("/Courses/Index");
                     }
                     else if (user.CourseId == null) return LocalRedirect("/Home/Index");
-                        else return LocalRedirect("/Courses/Details/"+user.CourseId);
+                        else return LocalRedirect("/User/MyPage/" + user.Id);
                     //return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

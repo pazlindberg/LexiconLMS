@@ -1,0 +1,96 @@
+﻿@model LexiconLMS.Models.ViewModel.UserViewModel
+@{
+    ViewData["Title"] = "MyPage";
+}
+
+<h1>MyPage</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <table class="table table-sm table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Course.Name)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <a class="nav-link text-dark" asp-controller="Courses" asp-action="Details" asp-route-id="@Model.Course.Id"> @Html.DisplayFor(model => model.Course.Name)</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Course.Users)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Course.Users)
+                    {
+                        <tr>
+                            <td>
+                                @item.FullName
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm">
+            <table class="table table-sm  table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Course.Modules)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Course.Modules)
+                    {
+                        <tr>
+                            <td>
+                                <a class="nav-link text-dark" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id"> @item.Name</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm">
+            <table class="table table-sm  table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Tasks
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var module in Model.Course.Modules)
+                    {
+                        foreach (var item in module.Tasks)
+                        {
+                            <tr>
+                                <td>
+                                    <a class="nav-link text-dark" asp-controller="Tasks" asp-action="Details" asp-route-id="@item.Id">@module.Name ---- @item.Name</a>
+                                </td>
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

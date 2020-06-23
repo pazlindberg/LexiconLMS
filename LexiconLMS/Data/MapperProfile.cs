@@ -2,6 +2,8 @@
 using AutoMapper;
 using LexiconLMS.Models;
 using LexiconLMS.Models.ViewModel;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +30,7 @@ namespace LexiconLMS.Data
             //    from => from.MapFrom(s => s.Vehicles.Count));
 
         }
+
+       
     }
 }
