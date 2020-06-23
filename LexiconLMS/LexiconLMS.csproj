@@ -17,6 +17,10 @@
     <Compile Remove="Migrations\20200622102712_lms.Designer.cs" />
     <Compile Remove="Migrations\20200622110054_lms.cs" />
     <Compile Remove="Migrations\20200622110054_lms.Designer.cs" />
+    <Compile Remove="Migrations\20200623113440_lms.cs" />
+    <Compile Remove="Migrations\20200623113440_lms.Designer.cs" />
+    <Compile Remove="Migrations\20200623142220_lms.cs" />
+    <Compile Remove="Migrations\20200623142220_lms.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

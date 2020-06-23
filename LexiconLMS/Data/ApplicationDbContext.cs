@@ -25,28 +25,28 @@ namespace LexiconLMS.Data
                     Id = 1,
                     Name = "Office 365",
                     Description = "Grundkurs i Office 365",
-                    StartDate = DateTime.Now
+                    StartDate = new DateTime(2020, 06, 15)
                 },
                 new Course
                 {
                     Id = 2,
                     Name = "Databaser 2",
                     Description = "Påbyggnadskurs i SQL",
-                    StartDate = DateTime.Now
+                    StartDate = new DateTime(2020, 03, 20)
                 },
                 new Course
                 {
                     Id = 3,
                     Name = "Test",
                     Description = "Hur man skriver tester",
-                    StartDate = DateTime.Now
+                    StartDate = new DateTime(2020, 08, 01)
                 },
                 new Course
                 {
                     Id = 4,
                     Name = "Programmering",
                     Description = "C#",
-                    StartDate = DateTime.Now
+                    StartDate = new DateTime(2020, 01, 01)
                 }
             );
 
@@ -57,8 +57,8 @@ namespace LexiconLMS.Data
                     Name = "Excel",
                     Description = "Skriva formler i Excel",
                     CourseId = 1,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 06, 15, 09, 00, 00),
+                    EndDate = new DateTime(2020, 06, 20, 17, 00, 00)
                 },
                 new Module
                 {
@@ -66,8 +66,8 @@ namespace LexiconLMS.Data
                     Name = "Word",
                     Description = "Skriva dokument",
                     CourseId = 1,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 06, 21, 09, 00, 00),
+                    EndDate = new DateTime(2020, 06, 30, 17, 00, 00)
                 },
                 new Module
                 {
@@ -75,8 +75,8 @@ namespace LexiconLMS.Data
                     Name = "Skapa databaser",
                     Description = "Skapa en enkel databas",
                     CourseId = 2,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 03, 20, 09, 00, 00),
+                    EndDate = new DateTime(2020, 04, 10, 17, 00, 00)
                 },
                 new Module
                 {
@@ -84,8 +84,8 @@ namespace LexiconLMS.Data
                     Name = "Söka i databaser",
                     Description = "Hur söker man i en databas?",
                     CourseId = 2,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 04, 11, 09, 00, 00),
+                    EndDate = new DateTime(2020, 04, 12, 17, 00, 00)
                 },
                 new Module
                 {
@@ -93,8 +93,8 @@ namespace LexiconLMS.Data
                     Name = "Arbeta med flera databaser",
                     Description = "Hur man ska arbeta med mer än en databas",
                     CourseId = 2,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 04, 13, 09, 00, 00),
+                    EndDate = new DateTime(2020, 04, 20, 17, 00, 00)
                 },
                 new Module
                 {
@@ -102,8 +102,8 @@ namespace LexiconLMS.Data
                     Name = "Automatisering",
                     Description = "Automatisering av tester",
                     CourseId = 3,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 08, 01, 09, 00, 00),
+                    EndDate = new DateTime(2020, 10, 20, 17, 00, 00)
                 },
                 new Module
                 {
@@ -111,8 +111,8 @@ namespace LexiconLMS.Data
                     Name = "Objekt",
                     Description = "Vad är objekt?",
                     CourseId = 4,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 01, 01, 09, 00, 00),
+                    EndDate = new DateTime(2020, 12, 24, 15, 00, 00)
                 }
             );
 
@@ -151,8 +151,8 @@ namespace LexiconLMS.Data
                     Name = "Enkla formler(addition, subtraktion...)",
                     ModuleId = 1,
                     TaskTypeId = 1,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 06, 15, 09, 00, 00),
+                    EndDate = new DateTime(2020, 06, 15, 14, 00, 00)
                 },
                 new Models.Task
                 {
@@ -160,8 +160,8 @@ namespace LexiconLMS.Data
                     Name = "Hur man använder ett tangentbord för att få tecken på skärmen",
                     ModuleId = 2,
                     TaskTypeId = 2,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 06, 21, 09, 00, 00),
+                    EndDate = new DateTime(2020, 06, 22, 17, 00, 00)
                 },
                 new Models.Task
                 {
@@ -169,8 +169,8 @@ namespace LexiconLMS.Data
                     Name = "Skapa en databas för telefonnummer",
                     ModuleId = 3,
                     TaskTypeId = 3,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 03, 20, 09, 00, 00),
+                    EndDate = new DateTime(2020, 04, 10, 17, 00, 00)
                 },
                 new Models.Task
                 {
@@ -178,8 +178,8 @@ namespace LexiconLMS.Data
                     Name = "Basic queries",
                     ModuleId = 4,
                     TaskTypeId = 2,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 04, 11, 10, 00, 00),
+                    EndDate = new DateTime(2020, 04, 11, 15, 00, 00)
                 },
                 new Models.Task
                 {
@@ -187,8 +187,8 @@ namespace LexiconLMS.Data
                     Name = "Telefonnummer som är kopplade till en användare",
                     ModuleId = 5,
                     TaskTypeId = 4,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 04, 20, 10, 00, 00),
+                    EndDate = new DateTime(2020, 04, 20, 12, 00, 00)
                 },
                 new Models.Task
                 {
@@ -196,8 +196,8 @@ namespace LexiconLMS.Data
                     Name = "Skriva ett test",
                     ModuleId = 6,
                     TaskTypeId = 1,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 08, 01, 09, 30, 00),
+                    EndDate = new DateTime(2020, 08, 01, 11, 30, 00)
                 },
                 new Models.Task
                 {
@@ -205,8 +205,8 @@ namespace LexiconLMS.Data
                     Name = "Objektorienterad programmering",
                     ModuleId = 7,
                     TaskTypeId = 5,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
+                    StartDate = new DateTime(2020, 12, 23, 10, 00, 00),
+                    EndDate = new DateTime(2020, 12, 23, 12, 00, 00)
                 }
             );
         }

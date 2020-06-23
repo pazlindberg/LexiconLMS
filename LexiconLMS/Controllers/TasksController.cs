@@ -76,11 +76,8 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Create(/*[Bind("Id,Name,StartDate,EndDate,ModuleId,TaskTypeId")]*/ TaskCreateViewModel task)
         {
-
-            if (task.EndDate < task.StartDate)
-            {
-                ModelState.AddModelError("EndDate", "Sluttiden kan inte vara tidigare än starttiden");
-            }
+            var modules = await _context.Modules.FindAsync(task.ModuleId);
+            CheckDate(task.StartDate, task.EndDate, modules.StartDate, modules.EndDate);
 
             if (ModelState.IsValid)
             {
@@ -128,10 +125,8 @@ namespace LexiconLMS.Controllers
                 return NotFound();
             }
 
-            if (model.EndDate < model.StartDate)
-            {
-                ModelState.AddModelError("EndDate", "Sluttiden kan inte vara tidigare än starttiden");
-            }
+            var modules = await _context.Modules.FindAsync(task.ModuleId);
+            CheckDate(task.StartDate, task.EndDate, modules.StartDate, modules.EndDate);
 
             if (ModelState.IsValid)
             {
@@ -214,13 +209,20 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> ModuleCreate([Bind("Name,StartDate,EndDate,ModuleId,TaskTypeId")] Models.Task task)
         {
+            var model = await mapper.ProjectTo<TaskCreateViewModel>(_context.Tasks).FirstOrDefaultAsync(t => t.Id == task.Id);
+            var modules = await _context.Modules.FindAsync(task.ModuleId);
+
+            CheckDate(task.StartDate, task.EndDate, modules.StartDate, modules.EndDate);
+
             if (ModelState.IsValid)
             {
                 _context.Add(task);
                 await _context.SaveChangesAsync();
                 return Redirect("~/Modules/Details/" + task.ModuleId);
             }
-            return View(task);
+            ViewData["modulename"] = modules.Name;
+            ViewData["moduleid"] = modules.Id;
+            return View(model);
         }
 
         private bool TaskExists(int id)
@@ -231,6 +233,22 @@ namespace LexiconLMS.Controllers
         private bool ModuleNotEmpty()
         {
             return (!_context.Modules.Any());
+        }
+
+        private void CheckDate(DateTime taskStart, DateTime taskEnd, DateTime moduleStart, DateTime moduleEnd)
+        {
+            if (moduleStart > taskStart)
+            {
+                ModelState.AddModelError("StartDate", $"Starttid för aktiviteten kan inte vara tidigare än starttid för modulen - {moduleStart:yyyy-MM-dd hh:mm}");
+            }
+            if (moduleEnd < taskEnd)
+            {
+                ModelState.AddModelError("EndDate", $"Sluttid för aktiviteten kan inte vara senare än sluttid för modulen - {moduleEnd:yyyy-MM-dd hh:mm}");
+            }
+            if (taskStart > taskEnd)
+            {
+                ModelState.AddModelError("EndDate", "Aktiviteten kan inte ha en tidigare slutttid än starttid");
+            }
         }
     }
 }

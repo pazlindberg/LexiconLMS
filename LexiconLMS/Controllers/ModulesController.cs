@@ -71,6 +71,8 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
+            var courses = await _context.Courses.FindAsync(module.CourseId);
+            CheckDate(module.StartDate, module.EndDate, courses.StartDate);
             if (ModelState.IsValid)
             {
                 _context.Add(module);
@@ -110,14 +112,8 @@ namespace LexiconLMS.Controllers
             ViewData["courseid"] = CourseList.Course.Id;
             ViewData["startdatum"] = CourseList.Course.StartDate;
 
-            if (module.StartDate < CourseList.Course.StartDate)
-            {
-                ModelState.AddModelError("StartDate", "Starttiden kan inte vara tidigare än kursens starttid: " + CourseList.Course.StartDate);
-            }
-            if (module.EndDate < module.StartDate)
-            {
-                ModelState.AddModelError("EndDate", "Sluttiden kan inte vara tidigare än starttiden");
-            }
+            var courses = await _context.Courses.FindAsync(module.CourseId);
+            CheckDate(module.StartDate, module.EndDate, courses.StartDate);
 
             if (ModelState.IsValid)
             {
@@ -168,14 +164,10 @@ namespace LexiconLMS.Controllers
                 .FirstOrDefaultAsync(e => e.Id == id);
 
             module.CourseId = model.CourseId;
-            if (module.StartDate < model.Course.StartDate)
-            {
-                ModelState.AddModelError("StartDate", "Starttiden kan inte vara tidigare än kursens starttid: " + model.Course.StartDate);
-            }
-            if (module.StartDate > module.EndDate)
-            {
-                ModelState.AddModelError("EndDate", "Sluttiden kan inte vara tidigare än starttiden");
-            }
+
+            var courses = await _context.Courses.FindAsync(module.CourseId);
+            CheckDate(module.StartDate, module.EndDate, courses.StartDate);
+
             if (id != module.Id)
             {
                 return NotFound();
@@ -241,5 +233,18 @@ namespace LexiconLMS.Controllers
         {
             return _context.Modules.Any(e => e.Id == id);
         }
+
+        private void CheckDate(DateTime moduleStart, DateTime moduleEnd, DateTime courseStart)
+        {
+            if (courseStart > moduleStart)
+            {
+                ModelState.AddModelError("StartDate", $"Starttid för modulen kan inte vara tidigare än starttid för kursen - {courseStart:yyyy-MM-dd}");
+            }
+            if (moduleStart > moduleEnd)
+            {
+                ModelState.AddModelError("EndDate", "Modulen kan inte ha en tidigare slutttid än starttid");
+            }
+        }
+
     }
 }
