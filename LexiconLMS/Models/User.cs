@@ -10,6 +10,8 @@ namespace LexiconLMS.Models
     
     public class User : IdentityUser
     {
+        
+
         [Display(Name = "FirstName")]
         [StringLength(30)]
         public string FirstName { get; set; }
