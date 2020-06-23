@@ -1,6 +1,6 @@
 /*23/6 anderz
  * todo: kursdetaljer->skapa ny elev->validering
  * todo: användare->detaljer->ändra (för lärare)
- 
+ * var kommer propertycopy i controllers ifrån?
 
 */

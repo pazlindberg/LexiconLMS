@@ -128,19 +128,16 @@ namespace LexiconLMS.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("Email", "Student with same Email already Exist");
+                    ModelState.AddModelError("Email", "E-postadressen redan knuten till befintlig användare");
                     return View();
 
                 }
-                
             }
             ViewBag.courseId = Id;
             return View(user);
         }
 
-
         // GET: Courses/Details/5
-
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Details(string id)
         {
@@ -171,14 +168,12 @@ namespace LexiconLMS.Controllers
             {
                 return NotFound();
             }
-                          
-
+            
             var userView = await _mapper.ProjectTo<UserViewModel>(_context.Users)
                 .FirstOrDefaultAsync(u => u.Id == id);
             var userToUpdate = await _userManager.FindByIdAsync(id);
             var roles = await _userManager.GetRolesAsync(userToUpdate);
             userView.Role = roles.FirstOrDefault(r => r.Contains("Studen") || r.Contains("Teacher"));
-
 
             if (userView == null)
             {
@@ -200,7 +195,6 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Email,PhoneNumber,CourseId")] UserViewModel viewUser)
         {
-            
             if (id == null)
             {
                 return NotFound();
@@ -234,8 +228,7 @@ namespace LexiconLMS.Controllers
                 try
                 {
                     _context.Update(userToUpdate);
-                    await _context.SaveChangesAsync();
-                    
+                    await _context.SaveChangesAsync();         
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -260,7 +253,6 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> AddCourse(int? id)
         {
-
             var studentUser = await _userManager.GetUsersInRoleAsync("Student");
             //var adminUsers = await _userManager.GetUsersInRoleAsync("Teacher");
             var availableUsers = new List<User>();
@@ -269,9 +261,7 @@ namespace LexiconLMS.Controllers
             {
                 if (item.CourseId == null) availableUsers.Add(item);
             }
-           
-                                                 
-            
+         
             //var usedUsers = await _context.Users.Where(u => u.CourseId == id).ToListAsync();
             var course = await _context.Courses.FindAsync(id);
             if (id == null)
@@ -305,7 +295,6 @@ namespace LexiconLMS.Controllers
                 {
                     _context.Update(userToUpdate);
                     await _context.SaveChangesAsync();
-
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -334,16 +323,12 @@ namespace LexiconLMS.Controllers
                 return NotFound();
             }
 
-            
             var user = await _userManager.FindByIdAsync(id);
             
             if (user == null)
             {
                 return NotFound();
             }
-            
-            
-
             return View(user);
         }
 
@@ -372,9 +357,6 @@ namespace LexiconLMS.Controllers
                               select d;
             
             ViewData["courseId"] = new SelectList(courseQuery.AsNoTracking(), "Id", "Name", selectedCourse);
-        }
-
-
-        
+        }        
     }
 }
