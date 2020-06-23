@@ -102,7 +102,7 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> Create(int Id, [Bind("FirstName,LastName,Email")] User user)
+        public async Task<IActionResult> Create(int Id, /*[Bind("FirstName,LastName,Email")] */UserViewModel user)
         {
             if (ModelState.IsValid)
             {
