@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace LexiconLMS.Models
         public CoursesController(ApplicationDbContext context)
         {
             _context = context;
+            
         }
 
         // GET: Courses
