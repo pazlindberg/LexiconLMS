@@ -103,12 +103,17 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> CourseCreate([Bind("Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
-            var CourseList = await mapper
+         
+
+                var CourseList = await mapper
                 .ProjectTo<ModuleDetailViewModel>(_context.Modules
                 .Include(m => m.Course)
                 .Include(t => t.Tasks))
                 .FirstOrDefaultAsync(e => e.CourseId == module.CourseId);
-            ViewData["coursename"] = CourseList.Course.Name;
+            
+                ViewData["coursename"] = CourseList.Course.Name;
+                ViewData["coursename"] = "";
+
             ViewData["courseid"] = CourseList.Course.Id;
             ViewData["startdatum"] = CourseList.Course.StartDate;
 

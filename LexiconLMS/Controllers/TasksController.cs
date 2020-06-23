@@ -172,7 +172,6 @@ namespace LexiconLMS.Controllers
             {
                 return NotFound();
             }
-
             return View(task);
         }
 

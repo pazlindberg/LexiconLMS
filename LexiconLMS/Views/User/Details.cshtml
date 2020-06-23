@@ -1,41 +1,43 @@
 ﻿@model LexiconLMS.Models.User
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Användardetaljer";
 }
-
     <h1>Detaljer</h1>
-
-
 <div>
     <h4>användare</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
+            @*@Html.DisplayNameFor(model => model.FirstName)*@
+            Förnamn
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FirstName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
+            @*@Html.DisplayNameFor(model => model.LastName)*@
+            Efternamn
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+            @*@Html.DisplayNameFor(model => model.Email)*@
+            E-post
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @*@Html.DisplayNameFor(model => model.PhoneNumber)*@
+            Telefonnummer
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course)
+            @*@Html.DisplayNameFor(model => model.Course)*@
+            Kurs
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Course.Name)

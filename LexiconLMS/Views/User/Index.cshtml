@@ -7,14 +7,11 @@
 }
 
 <h1>Användare</h1>
-
-
 <form asp-action="Filter">
-    <div class="input-group m-3">
-        
-        <input type="text" name="searchInput" class="form-control" placeholder="Search..." />
+    <div class="input-group m-3">    
+        <input type="text" name="searchInput" class="form-control" placeholder="Sök..." />
         <div class="input-group-append">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-search">&emsp;Search</i></button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search">&emsp;Sök</i></button>
         </div>
     </div>
    
@@ -29,25 +26,25 @@
         <thead>
             <tr class="bg-success">
                 <th data-defaultsign="AZ">
-                    Role Type
+                    Roll
                 </th>
                 <th data-defaultsign="AZ">
-                    @Html.DisplayNameFor(model => model.FullName)
+                    @*@Html.DisplayNameFor(model => model.FullName)*@
+                    Namn
                 </th>
                 <th data-firstsort="desc">
-                    @Html.DisplayNameFor(model => model.Email)
+                    @*@Html.DisplayNameFor(model => model.Email)*@
+                    E-post
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Course.Name)
+                    @*@Html.DisplayNameFor(model => model.Course.Name)*@
+                    Kurs
                 </th>
-                
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                
-
                 <tr>
                     <td>
                         @if (await _userManager.IsInRoleAsync(item, "Student"))
@@ -55,7 +52,9 @@
                             <p>Student</p>
                         }
                         else
-                        {<p>Teacher</p>}
+                        {
+                            <p>Lärare</p>
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FullName)
@@ -67,25 +66,16 @@
                         @Html.DisplayFor(modelItem => item.Course.Name)
                     </td>
                     <td>
-
                         <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Ändra</a>
                         <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">Detaljer</a>
                         @if (item.CourseId != null)
                         {
-                        <a class="btn btn-dark" asp-action="MyPage" asp-route-id="@item.Id">Hans Sida</a>
+                            <a class="btn btn-dark" asp-action="MyPage" asp-route-id="@item.Id">Användarsida</a>
                         }
                         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Radera</a>
                     </td>
                 </tr>
-
-
-
-
-
-
-
             }
         </tbody>
     </table>
 </div>
-

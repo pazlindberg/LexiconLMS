@@ -11,31 +11,36 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @*@Html.DisplayNameFor(model => model.Name)*@
+            Aktivitet
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
+            @*@Html.DisplayNameFor(model => model.StartDate)*@
+            Startdatum
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.StartDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
+            @*@Html.DisplayNameFor(model => model.EndDate)*@
+            Slutdatum
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.EndDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Module)
+            @*@Html.DisplayNameFor(model => model.Module)*@
+            Modul
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Module.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskType)
+            @*@Html.DisplayNameFor(model => model.TaskType)*@
+            Typ
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TaskType.Name)
@@ -45,7 +50,7 @@
 <div>
     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Radera</a>
     <a asp-action="Edit" asp-route-id="@Model.Id">Ändra</a> |
-    <a asp-action="Index">Tillbaka till aktivitetslistan</a>
+    <a asp-action="Index">Tillbaka...</a>
 </div>
 
 <div>
