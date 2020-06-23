@@ -62,7 +62,7 @@
 
 <div>
     <hr />
-    <h3>Aktiviteter</h3>
+    @*<h3>Aktiviteter</h3>
     <ul>
         @if ((this.Model.Tasks != null) && (this.Model.Tasks.Count > 0))
         {
@@ -76,7 +76,7 @@
         {
             <li><h4>Inga Aktiviteter</h4></li>
         }
-    </ul>
+    </ul>*@
     <p>
         @if (User.IsInRole("Teacher"))
         {
