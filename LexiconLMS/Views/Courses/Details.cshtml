@@ -2,7 +2,7 @@
 @model LexiconLMS.Models.Course
 @inject UserManager<User> UserManager
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Kursdetaljer";
 }
 
 <h1>Kurs: @Model.Name</h1>
@@ -16,19 +16,22 @@
             @Html.DisplayFor(model => model.Name)
         </dd>*@
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @*@Html.DisplayNameFor(model => model.Description)*@
+            Beskrivning
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
+            @*@Html.DisplayNameFor(model => model.StartDate)*@
+            Start
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.StartDate)
         </dd>
         <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.Users)
+            @*@Html.DisplayNameFor(model => model.Users)*@
+            Slut
         </dt>
 
         @if ((this.Model.Users != null) && (this.Model.Users.Count > 0))
@@ -64,27 +67,24 @@
                     @foreach (var thisTask in x.Tasks)
                     {
                         t = "/Tasks/Details/" + thisTask.Id; //todo: asp-action blbala spela roll
-
                         <li>
                             <a href=@t>@thisTask.Name</a>
                         </li>
                     }
                 </ul>
-         
-                    }
-                    }
-                    else
-                    {
-                    <li><h4>Inga moduler</h4></li>
-                    }
-                </ul>
-    <p>
-        @if (User.IsInRole("Teacher"))
-        {
-            <a class="btn btn-success" asp-action="CourseCreate" asp-controller="Modules" asp-route-id="@Model.Id">Ny modul</a>
-            
+            }
         }
-    </p>
+        else
+        {
+            <li><h4>Inga moduler</h4></li>
+        }
+    </ul>
+    @if (User.IsInRole("Teacher"))
+    {
+        <p>
+            <a class="btn btn-success" asp-action="CourseCreate" asp-controller="Modules" asp-route-id="@Model.Id">Ny modul</a>
+        </p>
+    }
 </div>
 
 @*<div>   obs: denna var redan implementerad men lämnar den här koden av ngt skäl jag inte kommer på
@@ -108,4 +108,3 @@
             
     </ul>
 </div>*@
-

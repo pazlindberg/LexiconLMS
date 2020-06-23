@@ -5,16 +5,16 @@
 @inject UserManager<User> UserManager
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Kurser";
 }
 
 <h1>Kursöversikt</h1>
 
 <form asp-action="Filter">
     <div class="input-group m-3">
-        <input type="text" name="Name" class="form-control" placeholder="Search by Name Or Description" />
+        <input type="text" name="Name" class="form-control" placeholder="Fri sökning..." />
         <div class="input-group-append">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-search">&emsp;Search</i></button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search">&emsp;Sök</i></button>
         </div>
     </div>
 </form>
@@ -26,13 +26,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @*@Html.DisplayNameFor(model => model.Name)*@
+                Namn
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @*@Html.DisplayNameFor(model => model.Description)*@
+                Beskrivning
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartDate)
+                @*@Html.DisplayNameFor(model => model.StartDate)*@
+                Start
             </th>
             <th></th>
         </tr>
