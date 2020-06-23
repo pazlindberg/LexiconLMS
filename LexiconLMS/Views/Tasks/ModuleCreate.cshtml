@@ -1,0 +1,49 @@
+﻿@model LexiconLMS.Models.ViewModel.TaskCreateViewModel
+@inject LexiconLMS.Services.ITaskTypeDropdown tasktypedropdown
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Ny aktivitet för modulen</h1>
+<h4>@ViewBag.modulename</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ModuleCreate" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskTypeId" class="control-label"></label>
+                <select asp-for="TaskTypeId" asp-items="@tasktypedropdown.GetSelectList()" class="form-control">
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input hidden asp-for="ModuleId" value="@ViewBag.moduleid" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Spara" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-success" asp-controller="Modules" asp-action="Details" asp-route-id="@ViewBag.moduleid">Tillbaka till @ViewBag.modulename</a>
+</div>
+
