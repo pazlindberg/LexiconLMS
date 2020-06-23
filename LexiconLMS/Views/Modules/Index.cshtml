@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<LexiconLMS.Models.Module>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Moduler";
 }
 
 <h1>Modul</h1>
@@ -13,19 +13,24 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @*@Html.DisplayNameFor(model => model.Name)*@
+                Namn
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @*@Html.DisplayNameFor(model => model.Description)*@
+                Beskrivning
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartDate)
+                @*@Html.DisplayNameFor(model => model.StartDate)*@
+                Start
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDate)
+                @*@Html.DisplayNameFor(model => model.EndDate)*@
+                Slut
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Course)
+                @*@Html.DisplayNameFor(model => model.Course)*@
+                Kurs
             </th>
             <th></th>
         </tr>
@@ -61,8 +66,7 @@
     <tr>
         <td>
             @*<a class="btn btn-success" asp-action="Index" asp-controller="Courses">Tillbaka till kurser</a>*@
-            <button class="btn btn-success" onclick="goBack()">Go Back</button>
-
+            <button class="btn btn-success" onclick="goBack()">Tillbaka...</button>
         </td>
     </tr>
 </table>

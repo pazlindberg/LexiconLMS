@@ -1,10 +1,9 @@
 ﻿@model LexiconLMS.Models.ViewModel.UserViewModel
 @{
-    ViewData["Title"] = "MyPage";
+    ViewData["Title"] = "Användarsida";
 }
 
 <h1>MyPage</h1>
-
 <div class="container">
     <div class="row">
         <div class="col-sm">
@@ -12,7 +11,8 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Course.Name)
+                            @*@Html.DisplayNameFor(model => model.Course.Name)*@
+                            Kurs
                         </th>
                     </tr>
                 </thead>
@@ -28,7 +28,8 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Course.Users)
+                            @*@Html.DisplayNameFor(model => model.Course.Users)*@
+                            Användare
                         </th>
                     </tr>
                 </thead>
@@ -41,7 +42,6 @@
                             </td>
                         </tr>
                     }
-
                 </tbody>
             </table>
         </div>
@@ -50,7 +50,8 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Course.Modules)
+                            @*@Html.DisplayNameFor(model => model.Course.Modules)*@
+                            Moduler
                         </th>
                     </tr>
                 </thead>
@@ -59,7 +60,7 @@
                     {
                         <tr>
                             <td>
-                                <a class="nav-link text-dark" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id"> @item.Name</a>
+                                <a class="nav-link text-dark" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id">@item.Name</a>
                             </td>
                         </tr>
                     }
@@ -71,7 +72,7 @@
                 <thead>
                     <tr>
                         <th>
-                            Tasks
+                            Aktiviteter
                         </th>
                     </tr>
                 </thead>
@@ -86,11 +87,9 @@
                                 </td>
                             </tr>
                         }
-
                     }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-

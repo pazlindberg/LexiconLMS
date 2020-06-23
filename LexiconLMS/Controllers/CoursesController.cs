@@ -62,7 +62,6 @@ namespace LexiconLMS.Models
             {
                 return NotFound();
             }
-
             return View(course);
         }
 
@@ -158,7 +157,6 @@ namespace LexiconLMS.Models
             {
                 return NotFound();
             }
-
             return View(course);
         }
 

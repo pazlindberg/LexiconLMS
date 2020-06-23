@@ -1,13 +1,9 @@
 ﻿@model LexiconLMS.Models.User
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Ta bort användare";
 }
-
     <h1>Radera</h1>
-
-
-
-<h3>Vill du verkligen radera användare <b><i>@Html.DisplayFor(model => model.FullName)</i></b>?</h3>
+    <h3>Vill du verkligen radera användare <b><i>@Html.DisplayFor(model => model.FullName)</i></b>?</h3>
 <div>
     <form asp-action="Delete">
         <input type="hidden" asp-for="@Model.Id" />
