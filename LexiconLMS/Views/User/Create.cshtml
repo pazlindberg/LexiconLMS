@@ -2,7 +2,7 @@
 @model LexiconLMS.Models.ViewModel.UserViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Lägg till användare";
 }
 
 <h1>Skapa Ny Elev</h1>
@@ -30,15 +30,14 @@
             </div>
             
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Skapa" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    @*<a class="btn btn-success" asp-controller="Courses" asp-action="Details" asp-route-id="@ViewBag.courseId">Tillbaka till @ViewBag.coursename</a>*@
-    <button class="btn btn-success" onclick="goBack()">Go Back</button>
+    <button class="btn btn-success" onclick="goBack()">Tillbaka...</button>
 </div>
 
 
