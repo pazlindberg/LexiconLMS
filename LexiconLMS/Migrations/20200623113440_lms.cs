@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LexiconLMS.Migrations
 {
-    public partial class init : Migration
+    public partial class lms : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -246,9 +246,10 @@ namespace LexiconLMS.Migrations
                 columns: new[] { "Id", "Description", "Name", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "mer om snus", "Snuskurs", new DateTime(2020, 6, 22, 10, 14, 53, 195, DateTimeKind.Local).AddTicks(1154) },
-                    { 2, "mer om sär skri vning", "Sär skrivnings kurs", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(2207) },
-                    { 3, "fest", "Värdegrundskurs", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(2274) }
+                    { 1, "Grundkurs i Office 365", "Office 365", new DateTime(2020, 6, 23, 13, 34, 39, 718, DateTimeKind.Local).AddTicks(6781) },
+                    { 2, "Påbyggnadskurs i SQL", "Databaser 2", new DateTime(2020, 6, 23, 13, 34, 39, 721, DateTimeKind.Local).AddTicks(3772) },
+                    { 3, "Hur man skriver tester", "Test", new DateTime(2020, 6, 23, 13, 34, 39, 721, DateTimeKind.Local).AddTicks(3817) },
+                    { 4, "C#", "Programmering", new DateTime(2020, 6, 23, 13, 34, 39, 721, DateTimeKind.Local).AddTicks(3823) }
                 });
 
             migrationBuilder.InsertData(
@@ -256,40 +257,40 @@ namespace LexiconLMS.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Tasktype1" },
-                    { 2, "Tasktype2" },
-                    { 3, "Tasktype3" }
+                    { 1, "Föreläsning" },
+                    { 2, "E-Learniog" },
+                    { 3, "Inlämningsuppgift" },
+                    { 4, "Prov" },
+                    { 5, "Certifiering" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Modules",
                 columns: new[] { "Id", "CourseId", "Description", "EndDate", "Name", "StartDate" },
-                values: new object[] { 1, 1, "Module1description", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(7292), "SNUS A", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(6424) });
-
-            migrationBuilder.InsertData(
-                table: "Modules",
-                columns: new[] { "Id", "CourseId", "Description", "EndDate", "Name", "StartDate" },
-                values: new object[] { 2, 1, "Module2description", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8256), "SNUS B", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8222) });
-
-            migrationBuilder.InsertData(
-                table: "Modules",
-                columns: new[] { "Id", "CourseId", "Description", "EndDate", "Name", "StartDate" },
-                values: new object[] { 3, 3, "Module3description", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8280), "Värdegrund A", new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8275) });
-
-            migrationBuilder.InsertData(
-                table: "Tasks",
-                columns: new[] { "Id", "EndDate", "ModuleId", "Name", "StartDate", "TaskTypeId" },
-                values: new object[] { 1, new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3030), 1, "TASK 1 (snusa)", new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(2207), 1 });
+                values: new object[,]
+                {
+                    { 1, 1, "Skriva formler i Excel", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(513), "Excel", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(9) },
+                    { 2, 1, "Skriva dokument", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(988), "Word", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(973) },
+                    { 3, 2, "Skapa en enkel databas", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1000), "Skapa databaser", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(997) },
+                    { 4, 2, "Hur söker man i en databas?", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1006), "Söka i databaser", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1003) },
+                    { 5, 2, "Hur man ska arbeta med mer än en databas", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1011), "Arbeta med flera databaser", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1008) },
+                    { 6, 3, "Automatisering av tester", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1016), "Automatisering", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1014) },
+                    { 7, 4, "Vad är objekt?", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1022), "Objekt", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1019) }
+                });
 
             migrationBuilder.InsertData(
                 table: "Tasks",
                 columns: new[] { "Id", "EndDate", "ModuleId", "Name", "StartDate", "TaskTypeId" },
-                values: new object[] { 2, new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3941), 2, "TASK 2 (snusa mer)", new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3908), 1 });
-
-            migrationBuilder.InsertData(
-                table: "Tasks",
-                columns: new[] { "Id", "EndDate", "ModuleId", "Name", "StartDate", "TaskTypeId" },
-                values: new object[] { 3, new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3964), 2, "TASK 3 (snusa ännu mer)", new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3958), 1 });
+                values: new object[,]
+                {
+                    { 1, new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(4883), 1, "Enkla formler(addition, subtraktion...)", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(4468), 1 },
+                    { 2, new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5408), 2, "Hur man använder ett tangentbord för att få tecken på skärmen", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5391), 2 },
+                    { 3, new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5428), 3, "Skapa en databas för telefonnummer", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5426), 3 },
+                    { 4, new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5434), 4, "Basic queries", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5431), 2 },
+                    { 5, new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5439), 5, "Telefonnummer som är kopplade till en användare", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5437), 4 },
+                    { 6, new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5444), 6, "Skriva ett test", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5442), 1 },
+                    { 7, new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5449), 7, "Objektorienterad programmering", new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5447), 5 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

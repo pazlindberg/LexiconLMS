@@ -9,6 +9,8 @@ using LexiconLMS.Data;
 using LexiconLMS.Models;
 using AutoMapper;
 using LexiconLMS.Models.ViewModel;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LexiconLMS.Controllers
 {
@@ -24,6 +26,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Tasks
+        [Authorize(Roles = "Student,Teacher")]
         public async Task<IActionResult> Index()
         {
             //var lexiconLMSContext = _context.Tasks.Include(t => t.Module).Include(t => t.TaskType);
@@ -34,6 +37,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Tasks/Details/5
+        [Authorize(Roles = "Student,Teacher")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -55,6 +59,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Tasks/Create
+        [Authorize(Roles = "Teacher")]
         public IActionResult Create()
         {
             
@@ -68,6 +73,7 @@ namespace LexiconLMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Create(/*[Bind("Id,Name,StartDate,EndDate,ModuleId,TaskTypeId")]*/ TaskCreateViewModel task)
         {
 
@@ -89,6 +95,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Tasks/Edit/5
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -112,6 +119,7 @@ namespace LexiconLMS.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate,ModuleId,TaskTypeId")] Models.Task task)
         {
             var model = await mapper.ProjectTo<TaskEditViewModel>(_context.Tasks).FirstOrDefaultAsync(e => e.Id == id);
@@ -143,7 +151,8 @@ namespace LexiconLMS.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return Redirect("~/Modules/Details/" + task.ModuleId);
             }
             //ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
             //ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
@@ -151,6 +160,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Tasks/Delete/5
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -174,13 +184,43 @@ namespace LexiconLMS.Controllers
         // POST: Tasks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var model = await mapper.ProjectTo<TaskDeleteViewModel>(_context.Tasks).FirstOrDefaultAsync(t => t.Id == id);
             var task = await _context.Tasks.FindAsync(id);
             _context.Tasks.Remove(task);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            return Redirect("~/Modules/Details/" + task.ModuleId);
+        }
+
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> ModuleCreate(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var modules = await _context.Modules.FindAsync(id);
+            ViewData["modulename"] = modules.Name;
+            ViewData["moduleid"] = modules.Id;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> ModuleCreate([Bind("Name,StartDate,EndDate,ModuleId,TaskTypeId")] Models.Task task)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(task);
+                await _context.SaveChangesAsync();
+                return Redirect("~/Modules/Details/" + task.ModuleId);
+            }
+            return View(task);
         }
 
         private bool TaskExists(int id)

@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LexiconLMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200622081453_init")]
-    partial class init
+    [Migration("20200623113440_lms")]
+    partial class lms
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.4")
+                .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -49,23 +49,30 @@ namespace LexiconLMS.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "mer om snus",
-                            Name = "Snuskurs",
-                            StartDate = new DateTime(2020, 6, 22, 10, 14, 53, 195, DateTimeKind.Local).AddTicks(1154)
+                            Description = "Grundkurs i Office 365",
+                            Name = "Office 365",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 718, DateTimeKind.Local).AddTicks(6781)
                         },
                         new
                         {
                             Id = 2,
-                            Description = "mer om sär skri vning",
-                            Name = "Sär skrivnings kurs",
-                            StartDate = new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(2207)
+                            Description = "Påbyggnadskurs i SQL",
+                            Name = "Databaser 2",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 721, DateTimeKind.Local).AddTicks(3772)
                         },
                         new
                         {
                             Id = 3,
-                            Description = "fest",
-                            Name = "Värdegrundskurs",
-                            StartDate = new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(2274)
+                            Description = "Hur man skriver tester",
+                            Name = "Test",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 721, DateTimeKind.Local).AddTicks(3817)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "C#",
+                            Name = "Programmering",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 721, DateTimeKind.Local).AddTicks(3823)
                         });
                 });
 
@@ -104,28 +111,64 @@ namespace LexiconLMS.Migrations
                         {
                             Id = 1,
                             CourseId = 1,
-                            Description = "Module1description",
-                            EndDate = new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(7292),
-                            Name = "SNUS A",
-                            StartDate = new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(6424)
+                            Description = "Skriva formler i Excel",
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(513),
+                            Name = "Excel",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(9)
                         },
                         new
                         {
                             Id = 2,
                             CourseId = 1,
-                            Description = "Module2description",
-                            EndDate = new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8256),
-                            Name = "SNUS B",
-                            StartDate = new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8222)
+                            Description = "Skriva dokument",
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(988),
+                            Name = "Word",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(973)
                         },
                         new
                         {
                             Id = 3,
+                            CourseId = 2,
+                            Description = "Skapa en enkel databas",
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1000),
+                            Name = "Skapa databaser",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(997)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CourseId = 2,
+                            Description = "Hur söker man i en databas?",
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1006),
+                            Name = "Söka i databaser",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1003)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CourseId = 2,
+                            Description = "Hur man ska arbeta med mer än en databas",
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1011),
+                            Name = "Arbeta med flera databaser",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1008)
+                        },
+                        new
+                        {
+                            Id = 6,
                             CourseId = 3,
-                            Description = "Module3description",
-                            EndDate = new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8280),
-                            Name = "Värdegrund A",
-                            StartDate = new DateTime(2020, 6, 22, 10, 14, 53, 199, DateTimeKind.Local).AddTicks(8275)
+                            Description = "Automatisering av tester",
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1016),
+                            Name = "Automatisering",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1014)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CourseId = 4,
+                            Description = "Vad är objekt?",
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1022),
+                            Name = "Objekt",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(1019)
                         });
                 });
 
@@ -163,29 +206,65 @@ namespace LexiconLMS.Migrations
                         new
                         {
                             Id = 1,
-                            EndDate = new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3030),
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(4883),
                             ModuleId = 1,
-                            Name = "TASK 1 (snusa)",
-                            StartDate = new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(2207),
+                            Name = "Enkla formler(addition, subtraktion...)",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(4468),
                             TaskTypeId = 1
                         },
                         new
                         {
                             Id = 2,
-                            EndDate = new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3941),
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5408),
                             ModuleId = 2,
-                            Name = "TASK 2 (snusa mer)",
-                            StartDate = new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3908),
-                            TaskTypeId = 1
+                            Name = "Hur man använder ett tangentbord för att få tecken på skärmen",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5391),
+                            TaskTypeId = 2
                         },
                         new
                         {
                             Id = 3,
-                            EndDate = new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3964),
-                            ModuleId = 2,
-                            Name = "TASK 3 (snusa ännu mer)",
-                            StartDate = new DateTime(2020, 6, 22, 10, 14, 53, 200, DateTimeKind.Local).AddTicks(3958),
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5428),
+                            ModuleId = 3,
+                            Name = "Skapa en databas för telefonnummer",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5426),
+                            TaskTypeId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5434),
+                            ModuleId = 4,
+                            Name = "Basic queries",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5431),
+                            TaskTypeId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5439),
+                            ModuleId = 5,
+                            Name = "Telefonnummer som är kopplade till en användare",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5437),
+                            TaskTypeId = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5444),
+                            ModuleId = 6,
+                            Name = "Skriva ett test",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5442),
                             TaskTypeId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            EndDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5449),
+                            ModuleId = 7,
+                            Name = "Objektorienterad programmering",
+                            StartDate = new DateTime(2020, 6, 23, 13, 34, 39, 723, DateTimeKind.Local).AddTicks(5447),
+                            TaskTypeId = 5
                         });
                 });
 
@@ -207,17 +286,27 @@ namespace LexiconLMS.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Tasktype1"
+                            Name = "Föreläsning"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Tasktype2"
+                            Name = "E-Learniog"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Tasktype3"
+                            Name = "Inlämningsuppgift"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Prov"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Certifiering"
                         });
                 });
 
