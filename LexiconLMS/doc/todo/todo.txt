@@ -1,6 +1,5 @@
 /*23/6 anderz
  * todo: kursdetaljer->skapa ny elev->validering
- * todo: knapp för att lägga till aktivitet
  * todo: användare->detaljer->ändra (för lärare)
  
 

@@ -32,4 +32,9 @@
     <PackageReference Include="Moment.js" Version="2.27.0" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="doc\bugs\" />
+  </ItemGroup>
+
 </Project>
