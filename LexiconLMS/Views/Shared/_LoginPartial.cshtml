@@ -16,7 +16,7 @@
             @if (logInUser.Id != null)
             {
                 <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @logInUser.FirstName!</a>
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @logInUser.FirstName!</a>
                 </li>
             }
 
@@ -29,17 +29,17 @@
         }
         else if (SignInManager.IsSignedIn(User) && User.IsInRole("Student"))
         {
+            @if (logInUser != null)
+            {
+                <li class="nav-item">
 
-            <li class="nav-item">
-               @if (logInUser.CourseId != null)
-               {
-                <a class="nav-link text-dark" asp-route-id="@logInUser.Id" asp-controller="User" asp-action="MyPage">Mina Sidor</a>
-               }
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hej, @logInUser.FirstName!</a>
-            </li>
+                    <a class="nav-link text-dark" asp-route-id="@logInUser.Id" asp-controller="User" asp-action="MyPage">Mina Sidor</a>
 
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hej, @logInUser.FirstName!</a>
+                </li>
+            }
             <li class="nav-item">
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <button type="submit" class="nav-link btn btn-link text-dark">Logga ut</button>
