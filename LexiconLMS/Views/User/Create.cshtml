@@ -6,7 +6,7 @@
 }
 
 <h1>Skapa Ny Elev</h1>
-
+<h4>@ViewBag.Confirmation</h4>
 
 <hr />
 <div class="row">
@@ -37,7 +37,8 @@
 </div>
 
 <div>
-    <button class="btn btn-success" onclick="goBack()">Tillbaka...</button>
+    <a class="btn btn-success" asp-controller="Courses" asp-action="Details" asp-route-id="@ViewBag.courseId">Tillbaka Till @ViewBag.courseName</a>
+    @*<button class="btn btn-success" onclick="goBack()">Tillbaka...</button>*@
 </div>
 
 

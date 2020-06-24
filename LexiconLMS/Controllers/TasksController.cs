@@ -106,8 +106,9 @@ namespace LexiconLMS.Controllers
             {
                 return NotFound();
             }
-            //ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
-            //ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
+            var module = await _context.Modules.FirstOrDefaultAsync(m => m.Id == id);
+            ViewData["moduleStartDate"] = module.StartDate;
+            ViewData["moduleEndDate"] = module.EndDate;
             return View(task);
         }
 
@@ -149,8 +150,8 @@ namespace LexiconLMS.Controllers
                 //return RedirectToAction(nameof(Index));
                 return Redirect("~/Modules/Details/" + task.ModuleId);
             }
-            //ViewData["ModuleId"] = new SelectList(_context.Set<Module>(), "Id", "Name", task.ModuleId);
-            //ViewData["TaskTypeId"] = new SelectList(_context.Set<TaskType>(), "Id", "Name", task.TaskTypeId);
+            ViewData["moduleStartDate"] = modules.StartDate;
+            ViewData["moduleEndDate"] = modules.EndDate;
             return View(model);
         }
 
@@ -199,6 +200,8 @@ namespace LexiconLMS.Controllers
             var modules = await _context.Modules.FindAsync(id);
             ViewData["modulename"] = modules.Name;
             ViewData["moduleid"] = modules.Id;
+            ViewData["moduleStartDate"] = modules.StartDate;
+            ViewData["moduleEndDate"] = modules.EndDate;
 
             return View();
         }
@@ -221,6 +224,9 @@ namespace LexiconLMS.Controllers
             }
             ViewData["modulename"] = modules.Name;
             ViewData["moduleid"] = modules.Id;
+            ViewData["moduleStartDate"] = modules.StartDate;
+            ViewData["moduleEndSate"] = modules.EndDate;
+            
             return View(model);
         }
 

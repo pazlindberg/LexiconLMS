@@ -122,6 +122,8 @@ namespace LexiconLMS.Controllers
         public IActionResult Create(int Id)
         {
             ViewBag.courseId = Id;
+            var course =  _context.Courses.FirstOrDefault(c => c.Id == Id);
+            ViewBag.courseName = course.Name;
             return View();
 
         }
@@ -151,6 +153,7 @@ namespace LexiconLMS.Controllers
                         return LocalRedirect("~/User/Create/"+Id);
                         
                     }
+                    
 
                 }
                 else
@@ -160,7 +163,12 @@ namespace LexiconLMS.Controllers
 
                 }
             }
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id==Id);
+            ViewBag.courseName = course.Name;
             ViewBag.courseId = Id;
+            
+
+
             return View(user);
         }
 
