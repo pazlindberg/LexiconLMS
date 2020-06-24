@@ -57,41 +57,42 @@
                     </tr>
                 </thead>
                 <tbody>
-                   
+
                     @foreach (var item in Model.Course.Modules)
                     {
+                    
                         <tr>
                             <td>
-                                <a class="nav-link text-dark" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id">@item.Name</a>
+                                <div class="panel-group" id="accordion">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h6 class="panel-title">
+                                                <a class="alert-link text-left alert-dark" asp-controller="Modules" asp-action="Details" asp-route-id="@item.Id">@item.Name</a>
+
+                                                <a class="nav-link text-left alert-dark" data-toggle="collapse" data-parent="#accordion" href="#@item.Name">
+                                                    Tasks <span class="badge">(@item.Tasks.Count())</span>
+                                                </a>
+                                            </h6>
+                                        </div>
+                                        <div id="@item.Name" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+                                                @foreach (var task in item.Tasks)
+                                                {
+                                                    <a class="page-link alert-dark" asp-controller="Tasks" asp-action="Details" asp-route-id="@item.Id">@task.Name</a>
+                                                    
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+         
                             </td>
                         </tr>
-                    }
-                </tbody>
+                     }
+                    </tbody>
             </table>
         </div>
-        <div class="col-sm">
-            <table class="table table-sm  table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            Aktiviteter
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var module in Model.Course.Modules)
-                    {
-                        foreach (var item in module.Tasks)
-                        {
-                            <tr>
-                                <td>
-                                    <a class="nav-link text-dark" asp-controller="Tasks" asp-action="Details" asp-route-id="@item.Id">@module.Name ---- @item.Name</a>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
+        
+        
     </div>
 </div>
