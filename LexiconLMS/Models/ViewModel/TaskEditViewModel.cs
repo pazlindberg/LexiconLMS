@@ -11,7 +11,7 @@ namespace LexiconLMS.Models.ViewModel
         public int Id { get; set; }
         //public string Type { get; set; }
         [Required(ErrorMessage = "Du måste ange ett namn")]
-        [MaxLength(30, ErrorMessage = "Max 30 tecken")]
+        [MaxLength(50, ErrorMessage = "Max 50 tecken")]
         [Display(Name = "Namn")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Du måste ange en starttid")]

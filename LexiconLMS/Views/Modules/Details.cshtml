@@ -55,28 +55,18 @@
     </dl>
 </div>
 <div>
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Ändra</a>
-    <a class="btn btn-info" asp-action="Details" asp-controller="Courses" asp-route-id="@Model.Course.Id">Tillbaka till Kurs: @Model.Course.Name</a>
-    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Radera</a>
+    @if (User.IsInRole("Teacher"))
+    {
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Ändra</a>
+
+        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Radera</a>
+    }
+    <button class="btn btn-success" onclick="goBack()">Tillbaka...</button>
 </div>
 
 <div>
     
-    @*<h3>Aktiviteter</h3>
-    <ul>
-        @if ((this.Model.Tasks != null) && (this.Model.Tasks.Count > 0))
-        {
-            @foreach (var x in this.Model.Tasks) //todo: implementera snabbvy (tex hovring) om tid finnes
-            {
-                string t = "/Tasks/Details/" + x.Id;
-                <li><a href=@t>@x.Name</a></li>
-            }
-        }
-        else
-        {
-            <li><h4>Inga Aktiviteter</h4></li>
-        }
-    </ul>*@
+   
     <p>
         @if (User.IsInRole("Teacher"))
         {

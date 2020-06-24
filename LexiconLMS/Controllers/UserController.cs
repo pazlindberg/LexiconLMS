@@ -52,9 +52,7 @@ namespace LexiconLMS.Controllers
             var users = await _context.Users
                 .Include(u => u.Course)
                 .OrderBy(u => u.Email).ToListAsync();
-            ViewBag.hide = "OFF";
             
-
             return View(users);
         }
 
@@ -62,19 +60,48 @@ namespace LexiconLMS.Controllers
         public async Task<IActionResult> Filter(string searchInput)
         {
             //retrive users from database
-            var model = _context.Users.Include(u => u.Course).AsQueryable();
+            var users = _context.Users
+                .Include(u => u.Course)
+                .OrderBy(u => u.Email).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchInput))
+            {
+                if (searchInput.ToLower() == "lärare")
+                {
+                    var listUser = await users.ToListAsync();
+                    var teacherUser = listUser.Except(await _userManager.GetUsersInRoleAsync("Student")).ToList();
+                    return View(nameof(Index), teacherUser);
+                    
+                }
+                else if(searchInput.ToLower() == "student")
+                {
+                    var listUser = await users.ToListAsync();
+                    var studentUser = listUser.Except(await _userManager.GetUsersInRoleAsync("Teacher")).ToList();
+                    return View(nameof(Index), studentUser);
+                }
+                else
+                {
+                    //var users1 = _context.Users.Include(u => u.Course).AsQueryable();
 
 
-            model = string.IsNullOrWhiteSpace(searchInput) ?
-                   model :
-                   model
-                   .Where(u => u.Email.ToLower().Contains(searchInput.ToLower())
-                            || u.Course.Name.ToLower().Contains(searchInput.ToLower())
-                            || u.FirstName.ToLower().Contains(searchInput.ToLower())
-                            || u.LastName.ToLower().Contains(searchInput.ToLower())
-                            );
-            var users = await model.ToListAsync();
-            return View(nameof(Index), users);
+                    users = string.IsNullOrWhiteSpace(searchInput) ?
+                           users :
+                           users
+                           .Where(u => u.Email.ToLower().Contains(searchInput.ToLower())
+                                    || u.Course.Name.ToLower().Contains(searchInput.ToLower())
+                                    || u.FirstName.ToLower().Contains(searchInput.ToLower())
+                                    || u.LastName.ToLower().Contains(searchInput.ToLower())
+                                    );
+
+                    return View(nameof(Index), await users.ToListAsync());
+                }
+            }
+            else
+            {
+                return View(nameof(Index), await users.ToListAsync());
+            }
+            
+            
         }
 
         public async Task<IActionResult> MyPage(string id)
@@ -95,6 +122,8 @@ namespace LexiconLMS.Controllers
         public IActionResult Create(int Id)
         {
             ViewBag.courseId = Id;
+            var course =  _context.Courses.FirstOrDefault(c => c.Id == Id);
+            ViewBag.courseName = course.Name;
             return View();
 
         }
@@ -124,6 +153,7 @@ namespace LexiconLMS.Controllers
                         return LocalRedirect("~/User/Create/"+Id);
                         
                     }
+                    
 
                 }
                 else
@@ -133,7 +163,12 @@ namespace LexiconLMS.Controllers
 
                 }
             }
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id==Id);
+            ViewBag.courseName = course.Name;
             ViewBag.courseId = Id;
+            
+
+
             return View(user);
         }
 

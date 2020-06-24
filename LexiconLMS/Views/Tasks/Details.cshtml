@@ -47,14 +47,13 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Radera</a>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Ändra</a> |
-    <a asp-action="Index">Tillbaka...</a>
-</div>
+
 
 <div>
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Ändra</a>
-    <a class="btn btn-info" asp-action="Details" asp-controller="Modules" asp-route-id="@Model.Module.Id">Tillbaka till Modul: @Model.Module.Name</a>
-    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Radera</a>
+    @if (User.IsInRole("Teacher"))
+    {
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Ändra</a>
+        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Radera</a>
+    }
+    <button class="btn btn-success" onclick="goBack()">Tillbaka...</button>
 </div>

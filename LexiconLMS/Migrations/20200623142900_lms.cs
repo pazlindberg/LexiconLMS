@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LexiconLMS.Migrations
 {
-    public partial class woehaehed : Migration
+    public partial class lms : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -246,10 +246,10 @@ namespace LexiconLMS.Migrations
                 columns: new[] { "Id", "Description", "Name", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "Grundkurs i Office 365", "Office 365", new DateTime(2020, 6, 23, 14, 23, 25, 326, DateTimeKind.Local).AddTicks(2577) },
-                    { 2, "Påbyggnadskurs i SQL", "Databaser 2", new DateTime(2020, 6, 23, 14, 23, 25, 330, DateTimeKind.Local).AddTicks(507) },
-                    { 3, "Hur man skriver tester", "Test", new DateTime(2020, 6, 23, 14, 23, 25, 330, DateTimeKind.Local).AddTicks(564) },
-                    { 4, "C#", "Programmering", new DateTime(2020, 6, 23, 14, 23, 25, 330, DateTimeKind.Local).AddTicks(573) }
+                    { 1, "Grundkurs i Office 365", "Office 365", new DateTime(2020, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "Påbyggnadskurs i SQL", "Databaser 2", new DateTime(2020, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, "Hur man skriver tester", "Test", new DateTime(2020, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, "C#", "Programmering", new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -269,13 +269,13 @@ namespace LexiconLMS.Migrations
                 columns: new[] { "Id", "CourseId", "Description", "EndDate", "Name", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, 1, "Skriva formler i Excel", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(4846), "Excel", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(3980) },
-                    { 2, 1, "Skriva dokument", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5832), "Word", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5793) },
-                    { 3, 2, "Skapa en enkel databas", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5857), "Skapa databaser", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5851) },
-                    { 4, 2, "Hur söker man i en databas?", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5867), "Söka i databaser", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5863) },
-                    { 5, 2, "Hur man ska arbeta med mer än en databas", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5877), "Arbeta med flera databaser", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5873) },
-                    { 6, 3, "Automatisering av tester", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5887), "Automatisering", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5883) },
-                    { 7, 4, "Vad är objekt?", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5898), "Objekt", new DateTime(2020, 6, 23, 14, 23, 25, 332, DateTimeKind.Local).AddTicks(5893) }
+                    { 1, 1, "Skriva formler i Excel", new DateTime(2020, 6, 20, 17, 0, 0, 0, DateTimeKind.Unspecified), "Excel", new DateTime(2020, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 1, "Skriva dokument", new DateTime(2020, 6, 30, 17, 0, 0, 0, DateTimeKind.Unspecified), "Word", new DateTime(2020, 6, 21, 9, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 2, "Skapa en enkel databas", new DateTime(2020, 4, 10, 17, 0, 0, 0, DateTimeKind.Unspecified), "Skapa databaser", new DateTime(2020, 3, 20, 9, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 2, "Hur söker man i en databas?", new DateTime(2020, 4, 12, 17, 0, 0, 0, DateTimeKind.Unspecified), "Söka i databaser", new DateTime(2020, 4, 11, 9, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 2, "Hur man ska arbeta med mer än en databas", new DateTime(2020, 4, 20, 17, 0, 0, 0, DateTimeKind.Unspecified), "Arbeta med flera databaser", new DateTime(2020, 4, 13, 9, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, 3, "Automatisering av tester", new DateTime(2020, 10, 20, 17, 0, 0, 0, DateTimeKind.Unspecified), "Automatisering", new DateTime(2020, 8, 1, 9, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, 4, "Vad är objekt?", new DateTime(2020, 12, 24, 15, 0, 0, 0, DateTimeKind.Unspecified), "Objekt", new DateTime(2020, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -283,13 +283,13 @@ namespace LexiconLMS.Migrations
                 columns: new[] { "Id", "EndDate", "ModuleId", "Name", "StartDate", "TaskTypeId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(3640), 1, "Enkla formler(addition, subtraktion...)", new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(2837), 1 },
-                    { 2, new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4540), 2, "Hur man använder ett tangentbord för att få tecken på skärmen", new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4507), 2 },
-                    { 3, new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4586), 3, "Skapa en databas för telefonnummer", new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4578), 3 },
-                    { 4, new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4597), 4, "Basic queries", new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4592), 2 },
-                    { 5, new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4607), 5, "Telefonnummer som är kopplade till en användare", new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4602), 4 },
-                    { 6, new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4618), 6, "Skriva ett test", new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4613), 1 },
-                    { 7, new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4628), 7, "Objektorienterad programmering", new DateTime(2020, 6, 23, 14, 23, 25, 333, DateTimeKind.Local).AddTicks(4623), 5 }
+                    { 1, new DateTime(2020, 6, 15, 14, 0, 0, 0, DateTimeKind.Unspecified), 1, "Enkla formler(addition, subtraktion...)", new DateTime(2020, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 2, new DateTime(2020, 6, 22, 17, 0, 0, 0, DateTimeKind.Unspecified), 2, "Hur man använder ett tangentbord för att få tecken på skärmen", new DateTime(2020, 6, 21, 9, 0, 0, 0, DateTimeKind.Unspecified), 2 },
+                    { 3, new DateTime(2020, 4, 10, 17, 0, 0, 0, DateTimeKind.Unspecified), 3, "Skapa en databas för telefonnummer", new DateTime(2020, 3, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), 3 },
+                    { 4, new DateTime(2020, 4, 11, 15, 0, 0, 0, DateTimeKind.Unspecified), 4, "Basic queries", new DateTime(2020, 4, 11, 10, 0, 0, 0, DateTimeKind.Unspecified), 2 },
+                    { 5, new DateTime(2020, 4, 20, 12, 0, 0, 0, DateTimeKind.Unspecified), 5, "Telefonnummer som är kopplade till en användare", new DateTime(2020, 4, 20, 10, 0, 0, 0, DateTimeKind.Unspecified), 4 },
+                    { 6, new DateTime(2020, 8, 1, 11, 30, 0, 0, DateTimeKind.Unspecified), 6, "Skriva ett test", new DateTime(2020, 8, 1, 9, 30, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 7, new DateTime(2020, 12, 23, 12, 0, 0, 0, DateTimeKind.Unspecified), 7, "Objektorienterad programmering", new DateTime(2020, 12, 23, 10, 0, 0, 0, DateTimeKind.Unspecified), 5 }
                 });
 
             migrationBuilder.CreateIndex(
