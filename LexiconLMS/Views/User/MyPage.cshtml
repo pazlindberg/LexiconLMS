@@ -24,29 +24,40 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="table table-sm table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            @*@Html.DisplayNameFor(model => model.Course.Users)*@
-                            Användare
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Course.Users)
-                    {
-                        <tr>
-                            <td>
-                                @item.FullName
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div class="panel-group" id="accordionU">
+                <div class="panel panel-default">
+                    <table class="table table-sm table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="panel-heading">
+                                        <h6 class="panel-title">
+
+                                            <a class="nav-link text-left alert-dark" data-toggle="collapse" data-parent="#accordionU" href="#Users">
+                                                Användare <span class="badge">(@Model.Course.Users.Count())</span>
+                                            </a>
+                                        </h6>
+                                    </div>
+                                    <div id="Users" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            @foreach (var item in Model.Course.Users)
+                                            {
+                                                @item.FullName <span class="badge">(@item.Email)</span><br />
+                                            }
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="col-sm">
-            
+
             <table class="table table-sm  table-striped table-hover">
                 <thead>
                     <tr>
@@ -60,7 +71,7 @@
 
                     @foreach (var item in Model.Course.Modules)
                     {
-                    
+
                         <tr>
                             <td>
                                 <div class="panel-group" id="accordion">
@@ -79,20 +90,20 @@
                                                 @foreach (var task in item.Tasks)
                                                 {
                                                     <a class="page-link alert-dark" asp-controller="Tasks" asp-action="Details" asp-route-id="@item.Id">@task.Name</a>
-                                                    
+
                                                 }
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-         
+
                             </td>
                         </tr>
-                     }
-                    </tbody>
+                    }
+                </tbody>
             </table>
         </div>
-        
-        
+
+
     </div>
 </div>
