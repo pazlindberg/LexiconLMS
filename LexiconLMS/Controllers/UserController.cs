@@ -64,27 +64,25 @@ namespace LexiconLMS.Controllers
                 .Include(u => u.Course)
                 .OrderBy(u => u.Email).AsQueryable();
 
+            var filterList = new List<User>();
+
             if (!string.IsNullOrEmpty(searchInput))
             {
-                if (searchInput.ToLower() == "lärare")
+                if ("lärare".Contains(searchInput.ToLower()))
                 {
                     var listUser = await users.ToListAsync();
                     var teacherUser = listUser.Except(await _userManager.GetUsersInRoleAsync("Student")).ToList();
-                    return View(nameof(Index), teacherUser);
+                    filterList.AddRange(teacherUser);
                     
                 }
-                else if(searchInput.ToLower() == "student")
+                if("student".Contains(searchInput.ToLower()))
                 {
                     var listUser = await users.ToListAsync();
                     var studentUser = listUser.Except(await _userManager.GetUsersInRoleAsync("Teacher")).ToList();
-                    return View(nameof(Index), studentUser);
+                    filterList.AddRange(studentUser);
                 }
-                else
-                {
-                    //var users1 = _context.Users.Include(u => u.Course).AsQueryable();
 
-
-                    users = string.IsNullOrWhiteSpace(searchInput) ?
+                   var otherFilterlist = string.IsNullOrWhiteSpace(searchInput) ?
                            users :
                            users
                            .Where(u => u.Email.ToLower().Contains(searchInput.ToLower())
@@ -92,17 +90,19 @@ namespace LexiconLMS.Controllers
                                     || u.FirstName.ToLower().Contains(searchInput.ToLower())
                                     || u.LastName.ToLower().Contains(searchInput.ToLower())
                                     );
+                     
 
-                    return View(nameof(Index), await users.ToListAsync());
-                }
+                    filterList.AddRange(await otherFilterlist.ToListAsync());
+                    return View(nameof(Index), filterList.Distinct().ToList());
+
             }
-            else
-            {
-                return View(nameof(Index), await users.ToListAsync());
-            }
-            
-            
+            return View(nameof(Index), await users.ToListAsync());
+
         }
+
+
+
+
 
         public async Task<IActionResult> MyPage(string id)
         {
